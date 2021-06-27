@@ -21,29 +21,29 @@ class AgendaProvider with ChangeNotifier {
     }
   }
 
-  final String authToken;
-  final String userId;
+  final String? authToken;
+  final String? userId;
 
-  AgendaProvider({this.authToken, this.userId});
+  AgendaProvider({required this.authToken,required this.userId});
 
   List<Calendar> get getData {
     return [...items];
   }
 
   Future<void> getPickup() async {
-    
     try {
-      final response = await http.get(url, headers: {
+      final response = await http
+          .get(Uri.parse('https://api.komdakkomcakaba.my.id/api/calendars'), headers: {
         'Content-type': 'application/json',
         'Accept': '/',
         'Accept-Encoding': 'gzip, deflate, br',
         'Connection': 'keep-alive',
-        'Authorization': 'Bearer $authToken'
+        'Authorization': 'Bearer $authToken',
       });
 
       final extractedData = json.decode(response.body.toString());
       final List<Calendar> loaded = [];
-      for (Map i in extractedData["calendars"]) {
+      for (Map<String, dynamic> i in extractedData["calendars"]) {
         loaded.add(Calendar.fromMap(i));
       }
       items = loaded;
@@ -57,8 +57,8 @@ class AgendaProvider with ChangeNotifier {
 
 class Agenda with ChangeNotifier {
   Agenda({
-    @required this.calendars,
-    @required this.message,
+    required this.calendars,
+    required this.message,
   });
 
   final List<Calendar> calendars;
@@ -82,17 +82,17 @@ class Agenda with ChangeNotifier {
 
 class Calendar with ChangeNotifier {
   Calendar({
-    @required this.id,
-    @required this.name,
-    @required this.dateStart,
-    @required this.dateEnd,
-    @required this.tempat,
-    @required this.waktuStart,
-    @required this.waktuEnd,
-    @required this.description,
-    @required this.createdAt,
-    @required this.updatedAt,
-    @required this.thumbnail,
+    required this.id,
+    required this.name,
+    required this.dateStart,
+    required this.dateEnd,
+    required this.tempat,
+    required this.waktuStart,
+    required this.waktuEnd,
+    required this.description,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.thumbnail,
   });
 
   final int id;
@@ -122,7 +122,8 @@ class Calendar with ChangeNotifier {
         description: json["description"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        thumbnail: json["thumbnail"],
+        thumbnail:
+            'https://komdakkomcakaba.my.id/agenda-thumbnail/${json["thumbnail"]}',
       );
 
   Map<String, dynamic> toMap() => {

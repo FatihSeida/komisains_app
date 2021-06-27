@@ -7,8 +7,8 @@ class NewsProvider with ChangeNotifier {
   List<Article> items = [];
   bool isLoading = true;
 
-  final String authToken;
-  final String userId;
+  final String? authToken;
+  final String? userId;
   var _disposed = false;
 
   @override
@@ -32,16 +32,18 @@ class NewsProvider with ChangeNotifier {
 
   Future<void> getPickup() async {
     try {
-      final response = await http.get(url, headers: {
+      final response = await http
+          .get(Uri.parse('https://api.komdakkomcakaba.my.id/api/articles'), headers: {
         'Content-type': 'application/json',
         'Accept': '/',
         'Accept-Encoding': 'gzip, deflate, br',
         'Connection': 'keep-alive',
+        "Access-Control-Allow-Origin": "*"
       });
 
       final extractedData = json.decode(response.body.toString());
       final List<Article> loaded = [];
-      for (Map i in extractedData['articles']) {
+      for (Map<String, dynamic> i in extractedData['articles']) {
         loaded.add(Article.fromMap(i));
       }
       items = loaded;
@@ -55,12 +57,12 @@ class NewsProvider with ChangeNotifier {
 
 class News with ChangeNotifier {
   News({
-    this.articles,
-    this.message,
+    required this.articles,
+    required this.message,
   });
 
-  List<Article> articles;
-  String message;
+  final List<Article> articles;
+  final String message;
 
   factory News.fromJson(String str) => News.fromMap(json.decode(str));
 
@@ -80,14 +82,14 @@ class News with ChangeNotifier {
 
 class Article with ChangeNotifier {
   Article({
-    @required this.id,
-    @required this.title,
-    @required this.description,
-    @required this.thumbnail,
-    @required this.by,
-    @required this.tag,
-    @required this.createdAt,
-    @required this.updatedAt,
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.thumbnail,
+    required this.by,
+    required this.tag,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   final int id;
@@ -107,7 +109,8 @@ class Article with ChangeNotifier {
         id: json["id"],
         title: json["title"],
         description: json["description"],
-        thumbnail: json["thumbnail"],
+        thumbnail:
+            'https://komdakkomcakaba.my.id/articlephotos/${json["thumbnail"]}',
         by: json["by"],
         tag: json["tag"],
         createdAt: DateTime.parse(json["created_at"]),

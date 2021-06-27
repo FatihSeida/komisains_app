@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:komisains_app/main_screen.dart';
 import 'package:komisains_app/providers/agenda.dart';
 import 'package:komisains_app/providers/books.dart';
 import 'package:komisains_app/providers/news.dart';
@@ -27,12 +28,12 @@ import 'providers/auth.dart';
 import 'providers/kom_profile.dart';
 import 'providers/training_information_item.dart';
 
-bool seen;
+late bool seen;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  seen = prefs.getBool("seen");
+  seen = prefs.getBool("seen")!;
   await prefs.setBool("seen", true);
   SystemChrome.setPreferredOrientations(
           [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
@@ -48,7 +49,9 @@ class MyApp extends StatelessWidget {
           value: Auth(),
         ),
         ChangeNotifierProxyProvider<Auth, BooksProvider>(
-          create: null,
+          create: (context) => BooksProvider.init(
+        Provider.of<UserProvider>(context, listen: false),
+      ),
           update: (ctx, auth, previousProducts) => BooksProvider(
             auth.token,
             auth.userId,
@@ -56,7 +59,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         ChangeNotifierProxyProvider<Auth, NewsProvider>(
-          create: null,
+          create: ,
           update: (ctx, auth, previousProducts) => NewsProvider(
             auth.token,
             auth.userId,
@@ -110,7 +113,7 @@ class MyApp extends StatelessWidget {
               indicatorColor: Colors.white,
               focusColor: Colors.white,
               highlightColor: Colors.white),
-          home: seen == false || seen == null ? IntroScreen() : CheckAuth(),
+          home: seen == false ? IntroScreen() : CheckAuth(),
           // auth.isAuth
           //     ? TabScreen()
           //     : FutureBuilder(
@@ -158,7 +161,7 @@ class _CheckAuthState extends State<CheckAuth> {
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      final profileId = ModalRoute.of(context).settings.arguments as String;
+      final profileId = ModalRoute.of(context)!.settings.arguments as String;
       if (profileId != null) {
         Provider.of<Auth>(context, listen: false).tryAutoLogin();
       }
@@ -170,10 +173,10 @@ class _CheckAuthState extends State<CheckAuth> {
   @override
   Widget build(BuildContext context) {
     return Consumer<Auth>(
-        builder: (context, auth, _) => auth.isAuth
+        builder: (context, auth, _) => auth.isAuth != null && true 
             ? TabScreen()
             : FutureBuilder(
                 future: auth.tryAutoLogin(),
-                builder: (ctx, authResultSnapshot) => WelcomeScreen()));
+                builder: (ctx, authResultSnapshot) => MainScreen()));
   }
 }

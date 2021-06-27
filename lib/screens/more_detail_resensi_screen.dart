@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 class MoreDetailResensiScreen extends StatelessWidget {
   static const routeName = '/more-resensi';
-  const MoreDetailResensiScreen({Key key}) : super(key: key);
+  const MoreDetailResensiScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +105,7 @@ class MoreDetailResensiScreen extends StatelessWidget {
 }
 
 class PDFViewerCachedFromUrl extends StatelessWidget {
-  const PDFViewerCachedFromUrl({Key key, @required this.url}) : super(key: key);
+  const PDFViewerCachedFromUrl({Key? key, required this.url}) : super(key: key);
 
   final String url;
 

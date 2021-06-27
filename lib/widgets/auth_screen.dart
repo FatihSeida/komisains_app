@@ -6,10 +6,10 @@ import 'package:provider/provider.dart';
 enum AuthMode { Signup, Login }
 
 class AuthCard extends StatefulWidget {
-  final ScrollController sc;
+  final ScrollController? sc;
   const AuthCard({
     @required this.sc,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -57,11 +57,11 @@ class _AuthCardState extends State<AuthCard> {
   }
 
   Future<void> _submit() async {
-    if (!_formKey.currentState.validate()) {
+    if (!_formKey.currentState!.validate()) {
       // Invalid!
       return;
     }
-    _formKey.currentState.save();
+    _formKey.currentState!.save();
     setState(() {
       _isLoading = true;
     });
@@ -182,13 +182,13 @@ class _AuthCardState extends State<AuthCard> {
                     cursorColor: Colors.white,
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return 'Kolom tidak boleh kosong';
                       }
                       return null;
                     },
                     onSaved: (value) {
-                      _authData['name'] = value;
+                      _authData['name'] = value!;
                     },
                   ),
                 TextFormField(
@@ -204,13 +204,13 @@ class _AuthCardState extends State<AuthCard> {
                   cursorColor: Colors.white,
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
-                    if (value.isEmpty || !value.contains('@')) {
+                    if (value!.isEmpty || !value.contains('@')) {
                       return 'Invalid email!';
                     }
                     return null;
                   },
                   onSaved: (value) {
-                    _authData['email'] = value;
+                    _authData['email'] = value!;
                   },
                 ),
                 SizedBox(
@@ -229,13 +229,13 @@ class _AuthCardState extends State<AuthCard> {
                   obscureText: true,
                   controller: _passwordController,
                   validator: (value) {
-                    if (value.isEmpty || value.length < 5) {
+                    if (value!.isEmpty || value.length < 5) {
                       return 'Password is too short!';
                     }
                     return null;
                   },
                   onSaved: (value) {
-                    _authData['password'] = value;
+                    _authData['password'] = value!;
                   },
                 ),
                 if (_authMode == AuthMode.Signup)
@@ -253,13 +253,13 @@ class _AuthCardState extends State<AuthCard> {
                             labelStyle: const TextStyle(color: Colors.white)),
                         obscureText: true,
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return 'Kolom tidak boleh kosong';
                           }
                           return null;
                         },
                         onSaved: (value) {
-                          _authData['password_confirmation'] = value;
+                          _authData['password_confirmation'] = value!;
                         },
                       ),
                       SizedBox(
@@ -279,13 +279,13 @@ class _AuthCardState extends State<AuthCard> {
                         cursorColor: Colors.white,
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return 'Kolom tidak boleh kosong';
                           }
                           return null;
                         },
                         onSaved: (value) {
-                          _authData['nohp'] = value;
+                          _authData['nohp'] = value!;
                         },
                       ),
                       SizedBox(
@@ -305,13 +305,13 @@ class _AuthCardState extends State<AuthCard> {
                         cursorColor: Colors.white,
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return 'Kolom tidak boleh kosong';
                           }
                           return null;
                         },
                         onSaved: (value) {
-                          _authData['department'] = value;
+                          _authData['department'] = value!;
                         },
                       ),
                       SizedBox(
@@ -331,13 +331,13 @@ class _AuthCardState extends State<AuthCard> {
                         cursorColor: Colors.white,
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return 'Kolom tidak boleh kosong';
                           }
                           return null;
                         },
                         onSaved: (value) {
-                          _authData['sex'] = value;
+                          _authData['sex'] = value!;
                         },
                       ),
                       SizedBox(
@@ -357,13 +357,13 @@ class _AuthCardState extends State<AuthCard> {
                         cursorColor: Colors.white,
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return 'Kolom tidak boleh kosong';
                           }
                           return null;
                         },
                         onSaved: (value) {
-                          _authData['angkatan_kuliah'] = value;
+                          _authData['angkatan_kuliah'] = value!;
                         },
                       ),
                     ],

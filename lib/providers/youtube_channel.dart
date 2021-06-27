@@ -7,8 +7,8 @@ class YTProvider with ChangeNotifier {
   List<Datum> items = [];
   bool isLoading = true;
 
-  final String authToken;
-  final String userId;
+  final String? authToken;
+  final String? userId;
   var _disposed = false;
 
   @override
@@ -24,7 +24,7 @@ class YTProvider with ChangeNotifier {
     }
   }
 
-  YTProvider({this.authToken, this.userId});
+  YTProvider({required this.authToken,required this.userId});
 
   List<Datum> get getData {
     return [...items];
@@ -32,7 +32,7 @@ class YTProvider with ChangeNotifier {
 
   Future<void> getPickup() async {
     try {
-      final response = await http.get(url, headers: {
+      final response = await http.get(Uri.parse('http://kom-api.sanbercloud.com/api/yt-channels'), headers: {
         'Content-type': 'application/json',
         'Accept': '/',
         'Accept-Encoding': 'gzip, deflate, br',
@@ -42,7 +42,7 @@ class YTProvider with ChangeNotifier {
 
       final extractedData = json.decode(response.body.toString());
       final List<Datum> loaded = [];
-      for (Map i in extractedData['data']) {
+      for (Map<String, dynamic> i in extractedData['data']) {
         loaded.add(Datum.fromMap(i));
       }
       items = loaded;
@@ -56,8 +56,8 @@ class YTProvider with ChangeNotifier {
 
 class ChannelYoutube {
   ChannelYoutube({
-    @required this.data,
-    @required this.message,
+    required this.data,
+    required this.message,
   });
 
   final List<Datum> data;
@@ -81,12 +81,12 @@ class ChannelYoutube {
 
 class Datum with ChangeNotifier {
   Datum({
-    @required this.id,
-    @required this.title,
-    @required this.thumbnail,
-    @required this.url,
-    @required this.createdAt,
-    @required this.updatedAt,
+    required this.id,
+    required this.title,
+    required this.thumbnail,
+    required this.url,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   final int id;
@@ -103,7 +103,7 @@ class Datum with ChangeNotifier {
   factory Datum.fromMap(Map<String, dynamic> json) => Datum(
         id: json["id"],
         title: json["title"],
-        thumbnail: json["thumbnail"],
+        thumbnail: 'https://komdakkomcakaba.my.id/yt-channel-thumbnail/${json["thumbnail"]}',
         url: json["url"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),

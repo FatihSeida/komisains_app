@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 class MoreDetailNewsScreen extends StatelessWidget {
   static const routeName = '/more-news';
-  const MoreDetailNewsScreen({Key key}) : super(key: key);
+  const MoreDetailNewsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class MoreDetailNewsScreen extends StatelessWidget {
                           child: AutoSizeText(
                             news.items[index].title,
                             maxLines: 3,
-                            style: textTheme.headline5.copyWith(
+                            style: textTheme.headline5!.copyWith(
                                 color: const Color(0xff3BBC86),
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold),

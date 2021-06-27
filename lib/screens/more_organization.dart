@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MoreOrganizationScreen extends StatelessWidget {
   static const routeName = '/more-organization';
-  const MoreOrganizationScreen({Key key}) : super(key: key);
+  const MoreOrganizationScreen({Key? key}) : super(key: key);
 
   final String text =
       """Himpunan Mahasiswa Islam (HMI) adalah organisasi mahasiswa yang didirikan di Yogyakarta pada tanggal 14 Rabiul Awal 1366 H bertepatan dengan tanggal 5 Februari 1947, atas prakarsa Lafran Pane beserta 14 orang mahasiswa Sekolah Tinggi Islam (sekarang Universitas Islam Indonesia). HMI telah melewati banyak fase atau tahap dalam perkembangannya sehingga kini HMI tetap dan terus menjalankan syariat organisasinya yang nasionalis dan tetap bernuansa Islam, sehingga kader-kader HMI sekarang menjadi seorang muslim yang nasionalis, berintelektual yang sekaligus menjunjung tinggi asas-asas keIslaman di Indonesia agar membuat Negara ini bangkit dan terus maju dalam pembangunan baik dalam segala aspek manapun, dan untuk menunjukkan kepada Negara luar khususnya Negara non-muslim bahwa Indonesia sebagai Negara dengan umat muslim terbanyak di dunia bisa membuat rakyat dan negaranya maju dalam segala bidang dan tetap menjunjung tinggi asas-asas keislaman.""";

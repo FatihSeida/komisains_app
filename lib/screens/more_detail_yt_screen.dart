@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class MoreDetailYTScreen extends StatelessWidget {
   static const routeName = '/more-yt';
-  const MoreDetailYTScreen({Key key}) : super(key: key);
+  const MoreDetailYTScreen({Key? key}) : super(key: key);
 
   void _launchURL(String _url) async => await canLaunch(_url)
       ? await launch(_url)

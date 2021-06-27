@@ -4,7 +4,7 @@ import 'package:komisains_app/providers/auth.dart';
 import 'package:provider/provider.dart';
 
 class ProfileView extends StatelessWidget {
-  const ProfileView({Key key}) : super(key: key);
+  const ProfileView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class ProfileView extends StatelessWidget {
         ),
         AttributeItem(
             attribute: 'Nama',
-            profileAttribute: profile.name,
+            profileAttribute: profile!.name,
             heightSize: MediaQuery.of(context).size.height * 0.07),
         AttributeItem(
             attribute: 'TTL',
@@ -57,7 +57,7 @@ class ProfileView extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      profile.angkatanKuliah ?? "Angkatan",
+                      profile.angkatanKuliah,
                       style: const TextStyle(color: Colors.white70),
                     ),
                   ),
@@ -219,9 +219,9 @@ class AttributeItem extends StatelessWidget {
   final heightSize;
   final widthSize;
   const AttributeItem({
-    @required this.attribute,
-    @required this.profileAttribute,
-    @required this.heightSize,
+    required this.attribute,
+    required this.profileAttribute,
+    required this.heightSize,
     this.widthSize,
   });
 
@@ -264,7 +264,7 @@ class AttributeItem extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                profileAttribute ?? "",
+                profileAttribute,
                 style: const TextStyle(color: Colors.white70, fontSize: 13),
               ),
             ),

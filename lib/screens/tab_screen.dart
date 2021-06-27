@@ -17,7 +17,7 @@ class _TabScreenState extends State<TabScreen>
     with AutomaticKeepAliveClientMixin<TabScreen> {
   int _currentIndex = 0;
 
-  PageController _pageController;
+  late PageController _pageController;
 
   @override
   void initState() {

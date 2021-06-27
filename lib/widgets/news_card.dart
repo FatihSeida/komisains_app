@@ -15,7 +15,7 @@ class WelcomeSlidingCard extends StatefulWidget {
 }
 
 class _WelcomeSlidingCardState extends State<WelcomeSlidingCard> {
-  PageController pageController;
+  late PageController pageController;
   double pageOffset = 0;
   var _isInit = true;
   var _isLoading = false;
@@ -25,7 +25,7 @@ class _WelcomeSlidingCardState extends State<WelcomeSlidingCard> {
     super.initState();
     pageController = PageController(viewportFraction: 0.7);
     pageController.addListener(() {
-      setState(() => pageOffset = pageController.page);
+      setState(() => pageOffset = pageController.page!);
     });
   }
 
@@ -102,7 +102,7 @@ class _WelcomeSlidingCardState extends State<WelcomeSlidingCard> {
                                 child: AutoSizeText(
                                   news.items[index].title,
                                   maxLines: 3,
-                                  style: textTheme.headline5.copyWith(
+                                  style: textTheme.headline5!.copyWith(
                                       color: const Color(0xff3BBC86),
                                       fontSize: 30,
                                       fontWeight: FontWeight.bold),

@@ -15,7 +15,7 @@ import 'more_detail_yt_screen.dart';
 class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final name = Provider.of<Auth>(context).items.name.split(" ");
+    final name = Provider.of<Auth>(context).items!.name.split(" ");
     final realName = name[0];
     return SingleChildScrollView(
       physics: ScrollPhysics(),

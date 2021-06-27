@@ -7,8 +7,8 @@ class TrainingInfoProvider with ChangeNotifier {
   List<Info> items = [];
   bool isLoading = true;
 
-  final String authToken;
-  final String userId;
+  final String? authToken;
+  final String? userId;
   var _disposed = false;
 
   @override
@@ -24,7 +24,7 @@ class TrainingInfoProvider with ChangeNotifier {
     }
   }
 
-  TrainingInfoProvider({this.authToken, this.userId});
+  TrainingInfoProvider({required this.authToken,required this.userId});
 
   List<Info> get getData {
     return [...items];
@@ -33,7 +33,7 @@ class TrainingInfoProvider with ChangeNotifier {
   Future<void> getPickup() async {
     
     try {
-      final response = await http.get(url, headers: {
+      final response = await http.get(Uri.parse('https://api.komdakkomcakaba.my.id/api/info-training'), headers: {
         'Content-type': 'application/json',
         'Accept': '/',
         'Accept-Encoding': 'gzip, deflate, br',
@@ -43,7 +43,7 @@ class TrainingInfoProvider with ChangeNotifier {
 
       final extractedData = json.decode(response.body.toString());
       final List<Info> loaded = [];
-      for (Map i in extractedData['info']) {
+      for (Map<String, dynamic> i in extractedData['info']) {
         loaded.add(Info.fromMap(i));
       }
       items = loaded;
@@ -57,8 +57,8 @@ class TrainingInfoProvider with ChangeNotifier {
 
 class InfoTraining {
   InfoTraining({
-    @required this.info,
-    @required this.message,
+    required this.info,
+    required this.message,
   });
 
   final List<Info> info;
@@ -82,15 +82,15 @@ class InfoTraining {
 
 class Info with ChangeNotifier {
   Info({
-    @required this.id,
-    @required this.title,
-    @required this.dateStart,
-    @required this.dateEnd,
-    @required this.province,
-    @required this.url,
-    @required this.createdAt,
-    @required this.updatedAt,
-    @required this.thumbnail,
+    required this.id,
+    required this.title,
+    required this.dateStart,
+    required this.dateEnd,
+    required this.province,
+    required this.url,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.thumbnail,
   });
 
   final int id;
@@ -116,7 +116,7 @@ class Info with ChangeNotifier {
         url: json["url"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        thumbnail: json["thumbnail"],
+        thumbnail: 'https://komdakkomcakaba.my.id/info-training-thumbnail/${json["thumbnail"]}',
       );
 
   Map<String, dynamic> toMap() => {

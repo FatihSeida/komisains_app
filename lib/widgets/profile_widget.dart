@@ -20,7 +20,7 @@ class ProfileWidget extends StatefulWidget {
 class _ProfileWidgetState extends State<ProfileWidget> {
   var _isInit = true;
   var _isLoading = false;
-  File _storedImage;
+  late File _storedImage;
   final picker = ImagePicker();
 
   @override
@@ -36,7 +36,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      final profileId = ModalRoute.of(context).settings.arguments as String;
+      final profileId = ModalRoute.of(context)!.settings.arguments as String;
       if (profileId != null) {
         Provider.of<Auth>(context, listen: false).getProfile();
       }
@@ -147,7 +147,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                   CircleAvatar(
                     radius: 70,
                     child: ClipOval(
-                      child: profile.photo != null
+                      child: profile!.photo != null
                           ? Image.network(
                               profile.photo,
                               height: 150,
@@ -193,7 +193,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                profile.name ?? "No Name",
+                profile.name,
                 style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.normal,

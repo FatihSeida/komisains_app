@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 class User with ChangeNotifier {
   User({
-    @required this.error,
-    @required this.tokenType,
-    @required this.accessToken,
-    @required this.expiresIn,
-    @required this.user,
-    @required this.message,
+    required this.error,
+    required this.tokenType,
+    required this.accessToken,
+    required this.expiresIn,
+    required this.user,
+    required this.message,
   });
 
   final bool error;
@@ -44,29 +43,29 @@ class User with ChangeNotifier {
 
 class UserClass with ChangeNotifier {
   UserClass({
-    @required this.id,
-    @required this.name,
-    @required this.email,
-    @required this.emailVerifiedAt,
-    @required this.gcmtoken,
-    @required this.hp,
-    @required this.address,
-    @required this.komisariat,
-    @required this.department,
-    @required this.photo,
-    @required this.createdAt,
-    @required this.updatedAt,
-    @required this.sex,
-    @required this.age,
-    @required this.jenjangTraining,
-    @required this.pengalamanOrganisasi,
-    @required this.linkedin,
-    @required this.instagram,
-    @required this.otherSocialMedia,
-    @required this.yearJoin,
-    @required this.angkatanKuliah,
-    @required this.namaAngkatan,
-    @required this.tempatTanggalLahir,
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.emailVerifiedAt,
+    required this.gcmtoken,
+    required this.hp,
+    required this.address,
+    required this.komisariat,
+    required this.department,
+    required this.photo,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.sex,
+    required this.age,
+    required this.jenjangTraining,
+    required this.pengalamanOrganisasi,
+    required this.linkedin,
+    required this.instagram,
+    required this.otherSocialMedia,
+    required this.yearJoin,
+    required this.angkatanKuliah,
+    required this.namaAngkatan,
+    required this.tempatTanggalLahir,
   });
 
   final int id;

@@ -333,7 +333,7 @@ class IconWithText extends StatelessWidget {
   final String text;
   final Color iconColor;
 
-  IconWithText(this.iconData, this.text, {@required this.iconColor});
+  IconWithText(this.iconData, this.text, {required this.iconColor});
   @override
   Widget build(BuildContext context) {
     return Container(

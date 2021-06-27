@@ -8,11 +8,11 @@ class AppColorsTheme {
   Color secondaryGradientColor;
 
   AppColorsTheme(
-      {@required this.primarySwatch,
-      @required this.titleBarGradientStartColor,
-      @required this.titleBarGradientEndColor,
-      @required this.textColor,
-      @required this.secondaryGradientColor});
+      {required this.primarySwatch,
+      required this.titleBarGradientStartColor,
+      required this.titleBarGradientEndColor,
+      required this.textColor,
+      required this.secondaryGradientColor});
 
   static final AppColorsTheme myTheme = new AppColorsTheme(
       primarySwatch: const Color(0xff3BBC86),

@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-
 class DiscussionForum {
   final String id;
   final String category;
@@ -12,13 +9,13 @@ class DiscussionForum {
   final int comments;
 
   DiscussionForum({
-    @required this.id,
-    @required this.category,
-    @required this.commentators,
-    @required this.dateCreated,
-    @required this.discussionText,
-    @required this.title,
-    @required this.viewer,
-    @required this.comments,
+    required this.id,
+    required this.category,
+    required this.commentators,
+    required this.dateCreated,
+    required this.discussionText,
+    required this.title,
+    required this.viewer,
+    required this.comments,
   });
 }

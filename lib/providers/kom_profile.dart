@@ -4,11 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class ProfileProvider with ChangeNotifier {
-  CakabaProfile items;
+  late CakabaProfile items;
   bool isLoading = true;
 
-  final String authToken;
-  final String userId;
+  final String? authToken;
+  final String? userId;
   var _disposed = false;
 
   @override
@@ -24,7 +24,7 @@ class ProfileProvider with ChangeNotifier {
     }
   }
 
-  ProfileProvider({this.authToken, this.userId});
+  ProfileProvider({required this.authToken,required this.userId});
 
   CakabaProfile get getData {
     return items;
@@ -32,7 +32,7 @@ class ProfileProvider with ChangeNotifier {
 
   Future<void> getPickup() async {
     try {
-      final response = await http.get(url, headers: {
+      final response = await http.get(Uri.parse('https://api.komdakkomcakaba.my.id/api/articles/cakaba-profile'), headers: {
         'Content-type': 'application/json',
         'Accept': '/',
         'Accept-Encoding': 'gzip, deflate, br',
@@ -55,8 +55,8 @@ class ProfileProvider with ChangeNotifier {
 
 class KomProfile {
   KomProfile({
-    @required this.cakabaProfile,
-    @required this.message,
+    required this.cakabaProfile,
+    required this.message,
   });
 
   final CakabaProfile cakabaProfile;
@@ -80,11 +80,11 @@ class KomProfile {
 
 class CakabaProfile with ChangeNotifier {
   CakabaProfile({
-    @required this.id,
-    @required this.description,
-    @required this.thumbnail,
-    @required this.createdAt,
-    @required this.updatedAt,
+    required this.id,
+    required this.description,
+    required this.thumbnail,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   final int id;

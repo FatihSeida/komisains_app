@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class MoreDetailAgendaScreen extends StatelessWidget {
   static const routeName = '/more-agenda';
-  MoreDetailAgendaScreen({Key key}) : super(key: key);
+  MoreDetailAgendaScreen({Key? key}) : super(key: key);
 
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
@@ -63,7 +63,7 @@ class MoreDetailAgendaScreen extends StatelessWidget {
                               padding: const EdgeInsets.only(left: 15, top: 20),
                               child: Text(
                                 agenda.items[index].name,
-                                style: textTheme.headline5.copyWith(
+                                style: textTheme.headline5!.copyWith(
                                     color: const Color(0xff3BBC86),
                                     fontSize: 30,
                                     fontWeight: FontWeight.bold),
@@ -130,22 +130,16 @@ class MoreDetailAgendaScreen extends StatelessWidget {
                                     final endDate =
                                         '${DateFormat('yyyy-MM-dd').format(agenda.items[index].dateEnd)} ${agenda.items[index].waktuEnd}';
                                     Add2Calendar.addEvent2Cal(
-                                            Event(
-                                                title: agenda.items[index].name,
-                                                startDate:
-                                                    DateTime.parse(startDate),
-                                                endDate:
-                                                    DateTime.parse(endDate),
-                                                description: agenda
-                                                    .items[index].description,
-                                                alarmInterval:
-                                                    Duration(minutes: 30),
-                                                timeZone: "GMT+07:00",
-                                                location:
-                                                    agenda.items[index].tempat),
-                                            androidNoUI: false)
-                                        .then((success) {
-                                      scaffoldMessengerKey.currentState
+                                      Event(
+                                          title: agenda.items[index].name,
+                                          startDate: DateTime.parse(startDate),
+                                          endDate: DateTime.parse(endDate),
+                                          description:
+                                              agenda.items[index].description,
+                                          timeZone: "GMT+07:00",
+                                          location: agenda.items[index].tempat),
+                                    ).then((success) {
+                                      scaffoldMessengerKey.currentState!
                                           .showSnackBar(SnackBar(
                                               content: Text(success
                                                   ? 'Success'

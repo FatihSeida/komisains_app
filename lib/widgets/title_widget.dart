@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class TitleWidget extends StatelessWidget {
   final String text;
   final String text2;
-  final Function function;
+  final Function()? function;
 
   TitleWidget(
     this.text,

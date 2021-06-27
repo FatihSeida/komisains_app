@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 class EditPasswordScreen extends StatefulWidget {
   static const routeName = '/edit-password';
-  const EditPasswordScreen({Key key}) : super(key: key);
+  const EditPasswordScreen({Key? key}) : super(key: key);
 
   @override
   _EditPasswordScreenState createState() => _EditPasswordScreenState();
@@ -26,7 +26,7 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
   final _confirmPasswordFocusNode = FocusNode();
 
   final _form = GlobalKey<FormState>();
-  String message;
+  late String message;
   var _isInit = true;
   var _isLoading = false;
 
@@ -45,11 +45,11 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
   }
 
   Future<void> _saveForm() async {
-    final isValid = _form.currentState.validate();
+    final isValid = _form.currentState!.validate();
     if (!isValid) {
       return;
     }
-    _form.currentState.save();
+    _form.currentState!.save();
     setState(() {
       _isLoading = true;
     });
@@ -91,7 +91,7 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     final profile = Provider.of<Auth>(context).items;
-    _editPassword['id'] = profile.id.toString();
+    _editPassword['id'] = profile!.id.toString();
     return Scaffold(
       backgroundColor: Color(0xff6EA88F),
       body: Container(
@@ -181,7 +181,7 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
                                   .requestFocus(_newPasswordFocusNode);
                             },
                             onSaved: (value) {
-                              _editPassword['old_password'] = value;
+                              _editPassword['old_password'] = value!;
                             },
                           ),
                         ),
@@ -224,7 +224,7 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
                                     .requestFocus(_confirmPasswordFocusNode);
                               },
                               onSaved: (value) {
-                                _editPassword['new_password'] = value;
+                                _editPassword['new_password'] = value!;
                               },
                             ),
                           ),
@@ -267,7 +267,7 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
                                 _saveForm();
                               },
                               onSaved: (value) {
-                                _editPassword['confirm_password'] = value;
+                                _editPassword['confirm_password'] = value!;
                               },
                             ),
                           ),

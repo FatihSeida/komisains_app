@@ -6,7 +6,7 @@ import 'package:komisains_app/screens/welcome_screen.dart';
 
 class IntroScreen extends StatefulWidget {
   static const routeName = '/intro-screen';
-  IntroScreen({Key key}) : super(key: key);
+  IntroScreen({Key? key}) : super(key: key);
 
   @override
   IntroScreenState createState() => new IntroScreenState();
@@ -15,7 +15,7 @@ class IntroScreen extends StatefulWidget {
 class IntroScreenState extends State<IntroScreen> {
   List<Slide> slides = [];
 
-  Function goToTab;
+  late Function goToTab;
 
   @override
   void initState() {
@@ -189,9 +189,8 @@ class IntroScreenState extends State<IntroScreen> {
 
       // Behavior
       scrollPhysics: BouncingScrollPhysics(),
-
-      // Show or hide status bar
-      shouldHideStatusBar: true,
+      hideStatusBar: true,
+      
 
       // On tab change completed
       onTabChangeCompleted: this.onTabChangeCompleted,

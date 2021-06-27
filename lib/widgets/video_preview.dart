@@ -13,7 +13,7 @@ class VideoPreview extends StatefulWidget {
 }
 
 class _VideoPreviewState extends State<VideoPreview> {
-  PageController pageController;
+  late PageController pageController;
   double pageOffset = 0;
   var _isInit = true;
   var _isLoading = false;
@@ -23,7 +23,7 @@ class _VideoPreviewState extends State<VideoPreview> {
     super.initState();
     pageController = PageController(viewportFraction: 0.8);
     pageController.addListener(() {
-      setState(() => pageOffset = pageController.page);
+      setState(() => pageOffset = pageController.page!);
     });
   }
 
@@ -82,10 +82,10 @@ class SlidingCard extends StatelessWidget {
   final double offset;
 
   const SlidingCard({
-    @required this.name,
-    @required this.url,
-    @required this.assetName,
-    @required this.offset,
+    required this.name,
+    required this.url,
+    required this.assetName,
+    required this.offset,
   });
 
   void _launchURL(String _url) async => await canLaunch(_url)
@@ -135,7 +135,7 @@ class CardContent extends StatelessWidget {
   final String name;
   final double offset;
 
-  const CardContent({@required this.name, @required this.offset});
+  const CardContent({required this.name, required this.offset});
 
   @override
   Widget build(BuildContext context) {

@@ -12,7 +12,7 @@ class BukuSakuView extends StatefulWidget {
 }
 
 class _BukuSakuViewState extends State<BukuSakuView> {
-  PageController pageController;
+  late PageController pageController;
   double pageOffset = 0;
   var _isInit = true;
   var _isLoading = false;
@@ -22,7 +22,7 @@ class _BukuSakuViewState extends State<BukuSakuView> {
     super.initState();
     pageController = PageController(viewportFraction: 0.44);
     pageController.addListener(() {
-      setState(() => pageOffset = pageController.page);
+      setState(() => pageOffset = pageController.page!);
     });
   }
 
@@ -170,7 +170,7 @@ class _BukuSakuViewState extends State<BukuSakuView> {
 }
 
 class PDFViewerCachedFromUrl extends StatefulWidget {
-  const PDFViewerCachedFromUrl({Key key, @required this.url}) : super(key: key);
+  const PDFViewerCachedFromUrl({Key? key, @required this.url}) : super(key: key);
 
   final String url;
 
@@ -182,7 +182,7 @@ class _PDFViewerCachedFromUrlState extends State<PDFViewerCachedFromUrl> {
   int _totalPages = 0;
   int _currentPage = 0;
   bool pdfReady = false;
-  PDFViewController _pdfViewController;
+  late PDFViewController _pdfViewController;
 
   @override
   Widget build(BuildContext context) {

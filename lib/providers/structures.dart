@@ -7,8 +7,8 @@ class StructureProvider with ChangeNotifier {
   List<Structure> items = [];
   bool isLoading = true;
 
-  final String authToken;
-  final String userId;
+  final String? authToken;
+  final String? userId;
   var _disposed = false;
 
   @override
@@ -24,26 +24,27 @@ class StructureProvider with ChangeNotifier {
     }
   }
 
-  StructureProvider({this.authToken, this.userId});
+  StructureProvider({required this.authToken,required this.userId});
 
   List<Structure> get getData {
     return [...items];
   }
 
   Future<void> getPickup() async {
-    
     try {
-      final response = await http.get(url, headers: {
-        'Content-type': 'application/json',
-        'Accept': '/',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Connection': 'keep-alive',
-        'Authorization': 'Bearer $authToken'
-      });
+      final response = await http.get(
+          Uri.parse('https://api.komdakkomcakaba.my.id/api/structure-organization'),
+          headers: {
+            'Content-type': 'application/json',
+            'Accept': '/',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Connection': 'keep-alive',
+            'Authorization': 'Bearer $authToken'
+          });
 
       final extractedData = json.decode(response.body.toString());
       final List<Structure> loaded = [];
-      for (Map i in extractedData['structures']) {
+      for (Map<String, dynamic> i in extractedData['structures']) {
         loaded.add(Structure.fromMap(i));
       }
       items = loaded;
@@ -57,8 +58,8 @@ class StructureProvider with ChangeNotifier {
 
 class Structures with ChangeNotifier {
   Structures({
-    @required this.structures,
-    @required this.message,
+    required this.structures,
+    required this.message,
   });
 
   final List<Structure> structures;
@@ -83,12 +84,12 @@ class Structures with ChangeNotifier {
 
 class Structure with ChangeNotifier {
   Structure({
-    @required this.id,
-    @required this.name,
-    @required this.position,
-    @required this.createdAt,
-    @required this.updatedAt,
-    @required this.thumbnail,
+    required this.id,
+    required this.name,
+    required this.position,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.thumbnail,
   });
 
   final int id;
@@ -108,7 +109,8 @@ class Structure with ChangeNotifier {
         position: json["position"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        thumbnail: json["thumbnail"],
+        thumbnail:
+            'https://komdakkomcakaba.my.id/pengurus-thumbnail/${json["thumbnail"]}',
       );
 
   Map<String, dynamic> toMap() => {

@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 class KomisariatProfileScreen extends StatelessWidget {
   static const routeName = '/komprofile';
-  const KomisariatProfileScreen({Key key}) : super(key: key);
+  const KomisariatProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

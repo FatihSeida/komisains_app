@@ -18,33 +18,34 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  animations: ^1.1.2
-  auto_size_text: ^2.1.0
-  bottom_navy_bar: ^5.6.0
-  cupertino_icons: ^1.0.2
-  flutter_cached_pdfview: ^0.3.5
-  flutter_html: ^1.2.0
-  flutter_swiper: ^1.1.6
-  font_awesome_flutter: ^8.11.0
-  http: ^0.12.2
-  intl: ^0.16.1
-  provider: ^4.3.3
-  shared_preferences: ^0.5.12+4
-  sliding_up_panel: ^1.0.2
-  url_launcher: ^6.0.2
-  image_picker: 0.6.7+22
-  image_cropper: ^1.4.0
-  path: ^1.7.0
-  googleapis: ^0.55.0
-  googleapis_auth: ^0.2.12
-  intro_slider: ^2.3.4
-  add_2_calendar: ^2.0.1
+  add_2_calendar: ^2.1.0
   after_layout: ^1.1.0
+  animations: ^2.0.0
+  auto_size_text: ^3.0.0-nullsafety.0
+  bottom_navy_bar: ^6.0.0
+  cupertino_icons: ^1.0.2
+  equatable: ^2.0.3
+  flutter_bloc: ^7.0.1
+  flutter_html: ^2.1.0
+  flutter_swiper: ^1.1.6
+  font_awesome_flutter: ^9.1.0
+  http: ^0.13.3
+  image_cropper: ^1.4.1
+  image_picker: ^0.8.1+1
+  intl: ^0.17.0
+  intro_slider: ^3.0.1
+  native_pdf_view: ^4.1.0
+  path: ^1.8.0
+  path_provider_windows: ^2.0.1
+  provider: ^5.0.0
+  shared_preferences: ^2.0.6
+  sliding_up_panel: ^2.0.0+1
+  url_launcher: ^6.0.7
 
 dev_dependencies:
   flutter_test:
@@ -58,7 +59,6 @@ flutter_icons:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter.
 flutter:
 
@@ -100,6 +100,5 @@ flutter:
         - asset: assets/fonts/SourceSansPro-Regular.ttf
         - asset: assets/fonts/SourceSansPro-SemiBold.ttf
         - asset: assets/fonts/SourceSansPro-SemiBoldItalic.ttf
-  #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

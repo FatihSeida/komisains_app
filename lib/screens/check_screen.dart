@@ -9,7 +9,7 @@ class CheckScreen extends StatefulWidget {
   static const routeName = '/splash';
   final Auth auth;
 
-  const CheckScreen({@required this.auth});
+  const CheckScreen({required this.auth});
 
   @override
   _CheckScreen createState() => _CheckScreen();
@@ -28,7 +28,7 @@ class _CheckScreen extends State<CheckScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.auth.isAuth
+    return widget.auth.isAuth != null && true
         ? TabScreen()
         : LayoutBuilder(
             builder: (context, constraints) {

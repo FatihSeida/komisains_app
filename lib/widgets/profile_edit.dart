@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 class EditProfileScreen extends StatefulWidget {
   static const routeName = '/edit-profile';
-  const EditProfileScreen({Key key}) : super(key: key);
+  const EditProfileScreen({Key? key}) : super(key: key);
 
   @override
   _EditProfileScreenState createState() => _EditProfileScreenState();
@@ -92,7 +92,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      final profileId = ModalRoute.of(context).settings.arguments as String;
+      final profileId = ModalRoute.of(context)!.settings.arguments as String;
       if (profileId != null) {
         Provider.of<Auth>(context, listen: false).getData();
       }
@@ -102,11 +102,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future<void> _saveForm() async {
-    final isValid = _form.currentState.validate();
+    final isValid = _form.currentState!.validate();
     if (!isValid) {
       return;
     }
-    _form.currentState.save();
+    _form.currentState!.save();
     setState(() {
       _isLoading = true;
     });
@@ -139,7 +139,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final profile = Provider.of<Auth>(context).items;
-    _editProfile['id'] = profile.id.toString();
+    _editProfile['id'] = profile!.id.toString();
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -230,7 +230,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   .requestFocus(_tempatTanggalLahirFocusNode);
                             },
                             onSaved: (value) {
-                              _editProfile['name'] = value;
+                              _editProfile['name'] = value!;
                             },
                           ),
                         ),
@@ -271,7 +271,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   .requestFocus(_emailFocusNode);
                             },
                             onSaved: (value) {
-                              _editProfile['tempat_tanggal_lahir'] = value;
+                              _editProfile['tempat_tanggal_lahir'] = value!;
                             },
                           ),
                         ),
@@ -313,7 +313,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     .requestFocus(_noHpFocusNode);
                               },
                               onSaved: (value) {
-                                _editProfile['email'] = value;
+                                _editProfile['email'] = value!;
                               },
                             ),
                           ),
@@ -356,7 +356,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     .requestFocus(_noHpFocusNode);
                               },
                               onSaved: (value) {
-                                _editProfile['address'] = value;
+                                _editProfile['address'] = value!;
                               },
                             ),
                           ),
@@ -399,7 +399,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     .requestFocus(_jurusanFocusNode);
                               },
                               onSaved: (value) {
-                                _editProfile['nohp'] = value;
+                                _editProfile['nohp'] = value!;
                               },
                             ),
                           ),
@@ -442,7 +442,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     .requestFocus(_angkatanFocusNode);
                               },
                               onSaved: (value) {
-                                _editProfile['department'] = value;
+                                _editProfile['department'] = value!;
                               },
                             ),
                           ),
@@ -485,7 +485,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     .requestFocus(_jenisKelaminFocusNode);
                               },
                               onSaved: (value) {
-                                _editProfile['angkatan_kuliah'] = value;
+                                _editProfile['angkatan_kuliah'] = value!;
                               },
                             ),
                           ),
@@ -528,7 +528,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     .requestFocus(_tahunBergabungFocusNode);
                               },
                               onSaved: (value) {
-                                _editProfile['sex'] = value;
+                                _editProfile['sex'] = value!;
                               },
                             ),
                           ),
@@ -571,7 +571,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     .requestFocus(_jenjangTrainingFocusNode);
                               },
                               onSaved: (value) {
-                                _editProfile['nama_angkatan'] = value;
+                                _editProfile['nama_angkatan'] = value!;
                               },
                             ),
                           ),
@@ -614,7 +614,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     .requestFocus(_namaAngkatanFocusNode);
                               },
                               onSaved: (value) {
-                                _editProfile['year_join'] = value;
+                                _editProfile['year_join'] = value!;
                               },
                             ),
                           ),
@@ -658,7 +658,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     _pengalamanOrganisasiFocusNode);
                               },
                               onSaved: (value) {
-                                _editProfile['jenjang_training'] = value;
+                                _editProfile['jenjang_training'] = value!;
                               },
                             ),
                           ),
@@ -702,7 +702,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     .requestFocus(_linkedlnFocusNode);
                               },
                               onSaved: (value) {
-                                _editProfile['pengalaman_organisasi'] = value;
+                                _editProfile['pengalaman_organisasi'] = value!;
                               },
                             ),
                           ),
@@ -745,7 +745,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     .requestFocus(_instagramFocusNode);
                               },
                               onSaved: (value) {
-                                _editProfile['linkedin'] = value;
+                                _editProfile['linkedin'] = value!;
                               },
                             ),
                           ),
@@ -788,7 +788,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     .requestFocus(_lainnyaFocusNode);
                               },
                               onSaved: (value) {
-                                _editProfile['instagram'] = value;
+                                _editProfile['instagram'] = value!;
                               },
                             ),
                           ),
@@ -831,7 +831,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 _saveForm();
                               },
                               onSaved: (value) {
-                                _editProfile['lainnya'] = value;
+                                _editProfile['lainnya'] = value!;
                               },
                             ),
                           ),

@@ -10,11 +10,11 @@ import 'package:komisains_app/providers/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth with ChangeNotifier {
-  String _token;
-  DateTime _expiryDate;
-  String _userId;
-  Timer _authTimer;
-  UserClass _items;
+  String? _token;
+  DateTime? _expiryDate;
+  String? _userId;
+  Timer? _authTimer;
+  UserClass? _items;
   var _disposed = false;
 
   @override
@@ -30,22 +30,22 @@ class Auth with ChangeNotifier {
     }
   }
 
-  UserClass get items {
+  UserClass? get items {
     return _items;
   }
 
-  bool get isAuth {
-    return token != null;
+  String? get isAuth {
+    return token;
   }
 
-  String get token {
+  String? get token {
     if (_expiryDate != null && _token != null) {
       return _token;
     }
     return null;
   }
 
-  String get userId {
+  String? get userId {
     return _userId;
   }
 
@@ -57,8 +57,8 @@ class Auth with ChangeNotifier {
     var length = await imageFile.length();
 
     // string to uri
-    
 
+    var uri = Uri.parse('https://api.komdakkomcakaba.my.id/api/profile/photo');
     // create multipart request
     var request = new http.MultipartRequest("POST", uri);
 
@@ -104,10 +104,9 @@ class Auth with ChangeNotifier {
   }
 
   Future<String> editPassword(Map<String, String> password) async {
-    
     try {
       final response = await http.put(
-        url,
+        Uri.parse('https://api.komdakkomcakaba.my.id/api/profile/password'),
         headers: {
           'Content-type': 'application/json',
           'Accept': '/',
@@ -134,10 +133,9 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> updateProfile(Map<String, String> newProduct) async {
-    
     try {
       final response = await http.put(
-        url,
+        Uri.parse('https://api.komdakkomcakaba.my.id/api/profile/edit'),
         headers: {
           'Content-type': 'application/json',
           'Accept': '/',
@@ -188,24 +186,24 @@ class Auth with ChangeNotifier {
   Future<void> signup(Map<String, String> profile) async {
     print(json.encode(profile));
 
-    
     try {
-      final response = await http.post(url,
-          body:
-              // json.encode(profile),
-              json.encode(
-            {
-              'name': profile['name'],
-              'email': profile['email'],
-              'password': profile['password'],
-              'password_confirmation': profile['password_confirmation'],
-              'nohp': profile['nohp'],
-              'department': profile['department'],
-              'sex': profile['sex'],
-              'angkatan_kuliah': profile['angkatan_kuliah'],
-            },
-          ),
-          headers: {
+      final response =
+          await http.post(Uri.parse('https://api.komdakkomcakaba.my.id/api/register'),
+              body:
+                  // json.encode(profile),
+                  json.encode(
+                {
+                  'name': profile['name'],
+                  'email': profile['email'],
+                  'password': profile['password'],
+                  'password_confirmation': profile['password_confirmation'],
+                  'nohp': profile['nohp'],
+                  'department': profile['department'],
+                  'sex': profile['sex'],
+                  'angkatan_kuliah': profile['angkatan_kuliah'],
+                },
+              ),
+              headers: {
             'Content-type': 'application/json',
             'Accept': '/',
             'Accept-Encoding': 'gzip, deflate, br',
@@ -221,9 +219,9 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> getProfile() async {
-    
     try {
-      final response = await http.get(url, headers: {
+      final response = await http
+          .get(Uri.parse('https://api.komdakkomcakaba.my.id/api/profile'), headers: {
         'Content-type': 'application/json',
         'Accept': '/',
         'Accept-Encoding': 'gzip, deflate, br',
@@ -245,18 +243,18 @@ class Auth with ChangeNotifier {
     }
   }
 
-  Future<void> login(String email, String password) async {
-    
+  Future<void> login(String? email, String? password) async {
     try {
-      final response = await http.post(url,
-          body: json.encode(
-            {
-              'email': email,
-              'password': password,
-              'returnSecureToken': true,
-            },
-          ),
-          headers: {
+      final response = await http
+          .post(Uri.parse('https://api.komdakkomcakaba.my.id/api/login'),
+              body: json.encode(
+                {
+                  'email': email,
+                  'password': password,
+                  'returnSecureToken': true,
+                },
+              ),
+              headers: {
             'Content-type': 'application/json',
             'Accept': '/',
             'Accept-Encoding': 'gzip, deflate, br',
@@ -281,7 +279,7 @@ class Auth with ChangeNotifier {
         {
           'token': _token,
           'userId': _userId,
-          'expiryDate': _expiryDate.toIso8601String(),
+          'expiryDate': _expiryDate!.toIso8601String(),
           'user': user.toMap(),
         },
       );
@@ -327,7 +325,7 @@ class Auth with ChangeNotifier {
     _userId = null;
     _expiryDate = null;
     if (_authTimer != null) {
-      _authTimer.cancel();
+      _authTimer!.cancel();
       _authTimer = null;
     }
     notifyListeners();
@@ -338,9 +336,9 @@ class Auth with ChangeNotifier {
 
   void _autoLogout() {
     if (_authTimer != null) {
-      _authTimer.cancel();
+      _authTimer!.cancel();
     }
-    final timeToExpiry = _expiryDate.difference(DateTime.now()).inSeconds;
+    final timeToExpiry = _expiryDate!.difference(DateTime.now()).inSeconds;
     _authTimer = Timer(Duration(seconds: timeToExpiry), logout);
   }
 }

@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 class BooksProvider with ChangeNotifier {
   List<Book> _items = [];
 
-  final String authToken;
-  final String userId;
+  final String? authToken;
+  final String? userId;
   var _disposed = false;
 
   @override
@@ -45,7 +45,7 @@ class BooksProvider with ChangeNotifier {
     
 
     try {
-      final response = await http.get(url, headers: {
+      final response = await http.get(Uri.parse('https://api.komdakkomcakaba.my.id/api/articles'), headers: {
         'Content-type': 'application/json',
         'Accept': '/',
         'Accept-Encoding': 'gzip, deflate, br',
@@ -55,7 +55,7 @@ class BooksProvider with ChangeNotifier {
 
       final extractedData = json.decode(response.body.toString());
       final List<Book> loaded = [];
-      for (Map i in extractedData['ebook']) {
+      for (Map<String, dynamic> i in extractedData['ebook']) {
         loaded.add(Book.fromMap(i));
       }
       _items = loaded;
@@ -69,8 +69,8 @@ class BooksProvider with ChangeNotifier {
 
 class Books {
   Books({
-    @required this.ebook,
-    @required this.message,
+    required this.ebook,
+    required this.message,
   });
 
   final List<Book> ebook;
@@ -93,14 +93,14 @@ class Books {
 
 class Book with ChangeNotifier {
   Book({
-    @required this.id,
-    @required this.name,
-    @required this.by,
-    @required this.file,
-    @required this.category,
-    @required this.createdAt,
-    @required this.updatedAt,
-    @required this.thumbnail,
+    required this.id,
+    required this.name,
+    required this.by,
+    required this.file,
+    required this.category,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.thumbnail,
   });
 
   final int id;
@@ -124,7 +124,7 @@ class Book with ChangeNotifier {
         category: json["category"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        thumbnail: json["thumbnail"],
+        thumbnail: 'https://komdakkomcakaba.my.id/ebooks-thumbnail/${json["thumbnail"]}',
       );
 
   Map<String, dynamic> toMap() => {

@@ -3,7 +3,7 @@ import 'package:komisains_app/colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class ForumPage extends StatefulWidget {
-  ForumPage({@required this.title});
+  ForumPage({required this.title});
 
   final String title;
 

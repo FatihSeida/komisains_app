@@ -1,13 +1,12 @@
 import 'package:animations/animations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:komisains_app/providers/books.dart';
 import 'package:provider/provider.dart';
 
 class MoreDetailBooksScreen extends StatelessWidget {
   static const routeName = '/more-books';
-  const MoreDetailBooksScreen({Key key}) : super(key: key);
+  const MoreDetailBooksScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +105,7 @@ class MoreDetailBooksScreen extends StatelessWidget {
 }
 
 class PDFViewerCachedFromUrl extends StatelessWidget {
-  const PDFViewerCachedFromUrl({Key key, @required this.url}) : super(key: key);
+  const PDFViewerCachedFromUrl({Key? key, required this.url}) : super(key: key);
 
   final String url;
 
