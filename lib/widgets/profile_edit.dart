@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:komisains_app/providers/auth.dart';
+import 'package:komisains_app/core/auth/models/auth.dart';
 import 'package:provider/provider.dart';
 
 class EditProfileScreen extends StatefulWidget {

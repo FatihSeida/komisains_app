@@ -2,7 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:komisains_app/providers/agenda.dart';
+import 'package:komisains_app/modules/agenda/models/agenda.dart';
 import 'package:provider/provider.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 

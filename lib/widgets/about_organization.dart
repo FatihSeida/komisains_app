@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:komisains_app/screens/more_organization.dart';
+import 'package:komisains_app/core/auth/screens/more_organization.dart';
 
 class AboutOrganization extends StatefulWidget {
   final String text;

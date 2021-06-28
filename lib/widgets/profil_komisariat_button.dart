@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:komisains_app/screens/komisariat_personalia_screen.dart';
-import 'package:komisains_app/screens/komisariat_profile_screen.dart';
+import 'package:komisains_app/modules/structure/screens/komisariat_personalia_screen.dart';
+import 'package:komisains_app/modules/profile/screens/komisariat_profile_screen.dart';
 
 class ProfilKomisariatButton extends StatelessWidget {
   @override

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:komisains_app/providers/auth.dart';
+import 'package:komisains_app/core/auth/models/auth.dart';
 import 'package:komisains_app/widgets/profile_view.dart';
 import 'package:provider/provider.dart';
 import 'package:komisains_app/widgets/profile_edit.dart';

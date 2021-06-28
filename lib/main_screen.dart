@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:komisains_app/screens/intro_screen.dart';
-import 'package:komisains_app/screens/welcome_screen.dart';
+import 'package:komisains_app/core/walk_through.dart/intro_screen.dart';
+import 'package:komisains_app/core/auth/screens/welcome_screen.dart';
 
 import '../responsive.dart';
 

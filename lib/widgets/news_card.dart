@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:math' as math;
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
-import 'package:komisains_app/providers/news.dart';
+import 'package:komisains_app/modules/news/models/news.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_html/flutter_html.dart';
 

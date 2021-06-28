@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:komisains_app/models/http_exection.dart';
-import 'package:komisains_app/providers/auth.dart';
+import 'package:komisains_app/core/auth/models/auth.dart';
 import 'package:provider/provider.dart';
 
 enum AuthMode { Signup, Login }

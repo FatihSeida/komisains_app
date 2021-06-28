@@ -1,7 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
-import 'package:komisains_app/providers/books.dart';
+import 'package:komisains_app/modules/ebook/models/books.dart';
 import 'dart:math' as math;
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
