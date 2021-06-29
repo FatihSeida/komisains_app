@@ -48,8 +48,6 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> signup(Map<String, String> profile) async {
-    print(json.encode(profile));
-
     try {
       final response =
           await http.post(Uri.parse('https://api.komdakkomcakaba.my.id/api/register'),
@@ -102,8 +100,6 @@ class Auth with ChangeNotifier {
       final responseData = json.decode(response.body.toString());
       final user = UserClass.fromMap(responseData['user']);
       _items = user;
-      print(responseData);
-
       _token = responseData['access_token'];
       _userId = responseData['id'];
       _expiryDate = DateTime.now().add(
@@ -123,7 +119,6 @@ class Auth with ChangeNotifier {
         },
       );
       prefs.setString('userData', userData);
-      print(prefs.setString('userData', userData));
     } catch (error) {
       throw error;
     }
