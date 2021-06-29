@@ -1,59 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 
-class NewsProvider with ChangeNotifier {
-  List<Article> items = [];
-  bool isLoading = true;
-
-  final String? authToken;
-  final String? userId;
-  var _disposed = false;
-
-  @override
-  void dispose() {
-    _disposed = true;
-    super.dispose();
-  }
-
-  @override
-  void notifyListeners() {
-    if (!_disposed) {
-      super.notifyListeners();
-    }
-  }
-
-  NewsProvider(this.authToken, this.userId, this.items);
-
-  List<Article> get getData {
-    return [...items];
-  }
-
-  Future<void> getPickup() async {
-    try {
-      final response = await http
-          .get(Uri.parse('https://api.komdakkomcakaba.my.id/api/articles'), headers: {
-        'Content-type': 'application/json',
-        'Accept': '/',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Connection': 'keep-alive',
-        "Access-Control-Allow-Origin": "*"
-      });
-
-      final extractedData = json.decode(response.body.toString());
-      final List<Article> loaded = [];
-      for (Map<String, dynamic> i in extractedData['articles']) {
-        loaded.add(Article.fromMap(i));
-      }
-      items = loaded;
-      notifyListeners();
-    } catch (e) {
-      print(e);
-      throw (e);
-    }
-  }
-}
 
 class News with ChangeNotifier {
   News({

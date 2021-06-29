@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         ChangeNotifierProxyProvider<Auth, NewsProvider>(
-          create: ,
+          create: (context) => NewsProvider(),
           update: (ctx, auth, previousProducts) => NewsProvider(
             auth.token,
             auth.userId,

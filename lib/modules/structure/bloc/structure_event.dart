@@ -6,3 +6,5 @@ abstract class StructureEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class FetchStructure extends StructureEvent {}

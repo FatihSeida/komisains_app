@@ -6,3 +6,5 @@ abstract class AgendaEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class FetchAgenda extends AgendaEvent {}

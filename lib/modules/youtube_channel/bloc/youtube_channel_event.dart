@@ -6,3 +6,5 @@ abstract class YoutubeChannelEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class FetchYoutubeVideo extends YoutubeChannelEvent {}

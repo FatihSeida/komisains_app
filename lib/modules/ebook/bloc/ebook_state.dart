@@ -7,4 +7,21 @@ abstract class EbookState extends Equatable {
   List<Object> get props => [];
 }
 
-class EbookInitial extends EbookState {}
+class EbookStateLoad extends EbookState {}
+
+class EbookStateLoaded extends EbookState {
+  final List<Book> books;
+
+  EbookStateLoaded({
+    required this.books,
+  });
+
+  @override
+  List<Object> get props => [books];
+}
+
+class EbookStateError extends EbookState {}
+
+
+
+

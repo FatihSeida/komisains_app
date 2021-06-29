@@ -6,3 +6,5 @@ abstract class InfoTrainingEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class FetchInfoTraining extends InfoTrainingEvent {}

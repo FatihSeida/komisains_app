@@ -6,3 +6,7 @@ abstract class EbookEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class FetchMateriWajib extends EbookEvent {}
+
+class FetchResensi extends EbookEvent {}

@@ -8,3 +8,19 @@ abstract class NewsState extends Equatable {
 }
 
 class NewsInitial extends NewsState {}
+
+class NewsStateLoad extends NewsState {}
+
+class NewsStateLoaded extends NewsState {
+  final List<Article> news;
+
+  NewsStateLoaded({
+    required this.news,
+  });
+
+  @override
+  List<Object> get props => [news];
+}
+
+class NewsStateError extends NewsState {}
+

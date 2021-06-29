@@ -1,57 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
-
-class ProfileProvider with ChangeNotifier {
-  late CakabaProfile items;
-  bool isLoading = true;
-
-  final String? authToken;
-  final String? userId;
-  var _disposed = false;
-
-  @override
-  void dispose() {
-    _disposed = true;
-    super.dispose();
-  }
-
-  @override
-  void notifyListeners() {
-    if (!_disposed) {
-      super.notifyListeners();
-    }
-  }
-
-  ProfileProvider({required this.authToken,required this.userId});
-
-  CakabaProfile get getData {
-    return items;
-  }
-
-  Future<void> getPickup() async {
-    try {
-      final response = await http.get(Uri.parse('https://api.komdakkomcakaba.my.id/api/articles/cakaba-profile'), headers: {
-        'Content-type': 'application/json',
-        'Accept': '/',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Connection': 'keep-alive',
-        'Authorization': 'Bearer $authToken'
-      });
-
-      final extractedData = json.decode(response.body.toString());
-
-      final loaded = CakabaProfile.fromMap(extractedData['cakaba-profile']);
-
-      items = loaded;
-      notifyListeners();
-    } catch (e) {
-      print(e);
-      throw (e);
-    }
-  }
-}
 
 class KomProfile {
   KomProfile({

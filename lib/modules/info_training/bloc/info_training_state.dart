@@ -8,3 +8,19 @@ abstract class InfoTrainingState extends Equatable {
 }
 
 class InfoTrainingInitial extends InfoTrainingState {}
+
+class InfoTrainingStateLoad extends InfoTrainingState {}
+
+class InfoTrainingStateLoaded extends InfoTrainingState {
+  final List<Info> books;
+
+  InfoTrainingStateLoaded({
+    required this.books,
+  });
+
+  @override
+  List<Object> get props => [books];
+}
+
+class InfoTrainingStateError extends InfoTrainingState {}
+

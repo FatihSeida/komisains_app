@@ -1,58 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
-
-class YTProvider with ChangeNotifier {
-  List<Datum> items = [];
-  bool isLoading = true;
-
-  final String? authToken;
-  final String? userId;
-  var _disposed = false;
-
-  @override
-  void dispose() {
-    _disposed = true;
-    super.dispose();
-  }
-
-  @override
-  void notifyListeners() {
-    if (!_disposed) {
-      super.notifyListeners();
-    }
-  }
-
-  YTProvider({required this.authToken,required this.userId});
-
-  List<Datum> get getData {
-    return [...items];
-  }
-
-  Future<void> getPickup() async {
-    try {
-      final response = await http.get(Uri.parse('http://kom-api.sanbercloud.com/api/yt-channels'), headers: {
-        'Content-type': 'application/json',
-        'Accept': '/',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Connection': 'keep-alive',
-        'Authorization': 'Bearer $authToken'
-      });
-
-      final extractedData = json.decode(response.body.toString());
-      final List<Datum> loaded = [];
-      for (Map<String, dynamic> i in extractedData['data']) {
-        loaded.add(Datum.fromMap(i));
-      }
-      items = loaded;
-      notifyListeners();
-    } catch (e) {
-      print(e);
-      throw (e);
-    }
-  }
-}
 
 class ChannelYoutube {
   ChannelYoutube({
