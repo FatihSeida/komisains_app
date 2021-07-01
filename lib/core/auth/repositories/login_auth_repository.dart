@@ -1,39 +1,19 @@
 import 'dart:convert';
 import 'dart:async';
 
-import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
-import 'package:komisains_app/models/http_exection.dart';
 import 'package:komisains_app/modules/user_profile/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Auth with ChangeNotifier {
+class LoginAuthRepository {
   String? _token;
   DateTime? _expiryDate;
   String? _userId;
   Timer? _authTimer;
   UserClass? _items;
-  var _disposed = false;
-
-  @override
-  void dispose() {
-    _disposed = true;
-    super.dispose();
-  }
-
-  @override
-  void notifyListeners() {
-    if (!_disposed) {
-      super.notifyListeners();
-    }
-  }
 
   UserClass? get items {
     return _items;
-  }
-
-  String? get isAuth {
-    return token;
   }
 
   String? get token {
@@ -47,40 +27,7 @@ class Auth with ChangeNotifier {
     return _userId;
   }
 
-  Future<void> signup(Map<String, String> profile) async {
-    try {
-      final response =
-          await http.post(Uri.parse('https://api.komdakkomcakaba.my.id/api/register'),
-              body:
-                  // json.encode(profile),
-                  json.encode(
-                {
-                  'name': profile['name'],
-                  'email': profile['email'],
-                  'password': profile['password'],
-                  'password_confirmation': profile['password_confirmation'],
-                  'nohp': profile['nohp'],
-                  'department': profile['department'],
-                  'sex': profile['sex'],
-                  'angkatan_kuliah': profile['angkatan_kuliah'],
-                },
-              ),
-              headers: {
-            'Content-type': 'application/json',
-            'Accept': '/',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Connection': 'keep-alive',
-          });
-      final responseData = json.decode(response.body);
-      if (responseData['error'] != null) {
-        throw HttpException(responseData['error']['message']);
-      }
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  Future<void> login(String? email, String? password) async {
+  Future<bool> login(String email, String password) async {
     try {
       final response = await http
           .post(Uri.parse('https://api.komdakkomcakaba.my.id/api/login'),
@@ -108,7 +55,6 @@ class Auth with ChangeNotifier {
         ),
       );
       _autoLogout();
-      notifyListeners();
       final prefs = await SharedPreferences.getInstance();
       final userData = json.encode(
         {
@@ -119,6 +65,7 @@ class Auth with ChangeNotifier {
         },
       );
       prefs.setString('userData', userData);
+      return token != null;
     } catch (error) {
       throw error;
     }
@@ -141,7 +88,6 @@ class Auth with ChangeNotifier {
     _expiryDate = expiryDate;
     final user = UserClass.fromMap(extractedUserData['user']);
     _items = user;
-    notifyListeners();
     _autoLogout();
     return true;
   }
@@ -162,7 +108,6 @@ class Auth with ChangeNotifier {
       _authTimer!.cancel();
       _authTimer = null;
     }
-    notifyListeners();
     final prefs = await SharedPreferences.getInstance();
     // prefs.remove('userData');
     prefs.clear();

@@ -9,13 +9,15 @@ abstract class AuthState extends Equatable {
 
 class AuthInitial extends AuthState {}
 
+class AuthStateLoading extends AuthState {}
+
 class AuthStateUnauthenticated extends AuthState {}
 
 class AuthStateAuthenticated extends AuthState {
-  final Auth auth;
+  final bool isAuth;
 
-  AuthStateAuthenticated({required this.auth});
+  AuthStateAuthenticated({required this.isAuth});
 
   @override
-  List<Object> get props => [auth];
+  List<Object> get props => [isAuth];
 }

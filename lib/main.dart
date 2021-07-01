@@ -114,14 +114,6 @@ class MyApp extends StatelessWidget {
               focusColor: Colors.white,
               highlightColor: Colors.white),
           home: seen == false ? IntroScreen() : CheckAuth(),
-          // auth.isAuth
-          //     ? TabScreen()
-          //     : FutureBuilder(
-          //         future: auth.tryAutoLogin(),
-          //         builder: (ctx, authResultSnapshot) =>
-          //             seen == false || seen == null
-          //                 ? IntroScreen()
-          //                 : WelcomeScreen()),
           debugShowCheckedModeBanner: false,
           routes: <String, WidgetBuilder>{
             '/forum': (BuildContext context) => ForumPage(
@@ -172,6 +164,7 @@ class _CheckAuthState extends State<CheckAuth> {
 
   @override
   Widget build(BuildContext context) {
+    final isAuth = 
     return Consumer<Auth>(
         builder: (context, auth, _) => auth.isAuth != null && true 
             ? TabScreen()
