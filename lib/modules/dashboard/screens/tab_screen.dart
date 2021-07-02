@@ -5,7 +5,7 @@ import 'package:komisains_app/modules/ebook/screens/buku_saku_screen.dart';
 import 'package:komisains_app/modules/dashboard/screens/dashboard_screen.dart';
 import 'package:komisains_app/modules/feeds/screens/feeds_screen.dart';
 import 'package:komisains_app/modules/info_training/screens/info_training_screen.dart';
-import 'package:komisains_app/modules/user_profile/bloc/screens/profile_screen.dart';
+import 'package:komisains_app/modules/user_profile/screens/profile_screen.dart';
 
 class TabScreen extends StatefulWidget {
   static const routeName = '/tab-screen';

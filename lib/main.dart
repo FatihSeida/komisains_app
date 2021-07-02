@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:komisains_app/core/auth/bloc/login_auth/auth_bloc.dart';
 import 'package:komisains_app/main_screen.dart';
 import 'package:komisains_app/modules/agenda/models/agenda.dart';
 import 'package:komisains_app/modules/ebook/models/books.dart';
@@ -50,8 +52,8 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProxyProvider<Auth, BooksProvider>(
           create: (context) => BooksProvider.init(
-        Provider.of<UserProvider>(context, listen: false),
-      ),
+            Provider.of<UserProvider>(context, listen: false),
+          ),
           update: (ctx, auth, previousProducts) => BooksProvider(
             auth.token,
             auth.userId,
@@ -164,9 +166,17 @@ class _CheckAuthState extends State<CheckAuth> {
 
   @override
   Widget build(BuildContext context) {
-    final isAuth = 
+    return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+      if (state is AuthStateAuthenticated) {
+        return TabScreen();
+      } else {
+        return FutureBuilder(
+                future: auth.tryAutoLogin(),
+                builder: (ctx, authResultSnapshot) => MainScreen());
+      }
+    });
     return Consumer<Auth>(
-        builder: (context, auth, _) => auth.isAuth != null && true 
+        builder: (context, auth, _) => auth.isAuth != null && true
             ? TabScreen()
             : FutureBuilder(
                 future: auth.tryAutoLogin(),

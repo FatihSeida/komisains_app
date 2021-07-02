@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:komisains_app/core/auth/models/auth.dart';
 import 'package:komisains_app/widgets/header_app.dart';
 import 'package:komisains_app/widgets/list_agenda.dart';
 import 'package:komisains_app/widgets/profil_komisariat_button.dart';
 import 'package:komisains_app/widgets/title_widget.dart';
 import 'package:komisains_app/widgets/video_preview.dart';
 import 'package:komisains_app/widgets/news_card.dart';
-import 'package:provider/provider.dart';
 
 import '../../agenda/screens/more_detail_agenda_screen.dart';
 import '../../news/screens/more_detail_news_screen.dart';
@@ -15,15 +13,13 @@ import '../../youtube_channel/screens/more_detail_yt_screen.dart';
 class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final name = Provider.of<Auth>(context).items!.name.split(" ");
-    final realName = name[0];
     return SingleChildScrollView(
       physics: ScrollPhysics(),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          HeaderApp('assets/images/buku.png', 'Hai $realName,',
+          HeaderApp('assets/images/buku.png', 'Hai Fatih,',
               'Selamat Datang di Komisariat'),
           TitleWidget(
             'Tentang Komisariat Terkini',

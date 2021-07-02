@@ -121,14 +121,14 @@ class IntroScreenState extends State<IntroScreen> {
             children: <Widget>[
               GestureDetector(
                   child: Image.asset(
-                currentSlide.pathImage,
+                currentSlide.pathImage!,
                 width: 200.0,
                 height: 200.0,
                 fit: BoxFit.contain,
               )),
               Container(
                 child: Text(
-                  currentSlide.title,
+                  currentSlide.title!,
                   style: currentSlide.styleTitle,
                   textAlign: TextAlign.center,
                 ),
@@ -138,7 +138,7 @@ class IntroScreenState extends State<IntroScreen> {
                 padding: const EdgeInsets.all(20),
                 child: Container(
                   child: Text(
-                    currentSlide.description,
+                    currentSlide.description!,
                     style: currentSlide.styleDescription,
                     textAlign: TextAlign.center,
                     maxLines: 6,
@@ -163,8 +163,9 @@ class IntroScreenState extends State<IntroScreen> {
 
       // Skip button
       renderSkipBtn: this.renderSkipBtn(),
-      colorSkipBtn: Colors.white,
-      highlightColorSkipBtn: const Color(0xff3BBC86),
+      
+      // colorSkipBtn: Colors.white,
+      // highlightColorSkipBtn: const Color(0xff3BBC86),
 
       // Next button
       renderNextBtn: this.renderNextBtn(),
@@ -172,8 +173,8 @@ class IntroScreenState extends State<IntroScreen> {
       // Done button
       renderDoneBtn: this.renderDoneBtn(),
       onDonePress: this.onDonePress,
-      colorDoneBtn: Colors.white,
-      highlightColorDoneBtn: const Color(0xff3BBC86),
+      // colorDoneBtn: Colors.white,
+      // highlightColorDoneBtn: const Color(0xff3BBC86),
 
       // Dot indicator
       colorDot: const Color(0xff3BBC86),
