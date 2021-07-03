@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:komisains_app/core/auth/bloc/login/login_bloc.dart';
+import 'package:komisains_app/core/auth/bloc/sign_up/sign_up_bloc.dart';
 import 'package:komisains_app/models/http_exection.dart';
-import 'package:komisains_app/core/auth/models/auth.dart';
-import 'package:provider/provider.dart';
 
 enum AuthMode { Signup, Login }
 
@@ -56,63 +57,6 @@ class _AuthCardState extends State<AuthCard> {
     );
   }
 
-  Future<void> _submit() async {
-    if (!_formKey.currentState!.validate()) {
-      // Invalid!
-      return;
-    }
-    _formKey.currentState!.save();
-    setState(() {
-      _isLoading = true;
-    });
-    try {
-      if (_authMode == AuthMode.Login) {
-        // Log user in
-        await Provider.of<Auth>(context, listen: false).login(
-          _authData['email'],
-          _authData['password'],
-        );
-      } else {
-        // Sign user up
-        await Provider.of<Auth>(context, listen: false).signup(
-          _authData,
-        );
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Berhasil Daftar',
-            ),
-            duration: Duration(seconds: 2),
-          ),
-        );
-      }
-    } on HttpException catch (error) {
-      var errorMessage = 'Authentication failed';
-      if (error.toString().contains('EMAIL_EXISTS')) {
-        errorMessage = 'This email address is already in use.';
-      } else if (error.toString().contains('INVALID_EMAIL')) {
-        errorMessage = 'This is not a valid email address';
-      } else if (error.toString().contains('WEAK_PASSWORD')) {
-        errorMessage = 'This password is too weak.';
-      } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
-        errorMessage = 'Could not find a user with that email.';
-      } else if (error.toString().contains('INVALID_PASSWORD')) {
-        errorMessage = 'Invalid password.';
-      }
-      _showErrorDialog(errorMessage);
-    } catch (error) {
-      print(error);
-      const errorMessage =
-          'Could not authenticate you. Please try again later.';
-      _showErrorDialog(errorMessage);
-    }
-
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
   void _switchAuthMode() {
     if (_authMode == AuthMode.Login) {
       setState(() {
@@ -127,7 +71,66 @@ class _AuthCardState extends State<AuthCard> {
 
   @override
   Widget build(BuildContext context) {
+    final _loginBloc = BlocProvider.of<LoginBloc>(context);
+    final _signUpBloc = BlocProvider.of<SignUpBloc>(context);
     final deviceSize = MediaQuery.of(context).size;
+
+    Future<void> _submit() async {
+      if (!_formKey.currentState!.validate()) {
+        // Invalid!
+        return;
+      }
+      _formKey.currentState!.save();
+      setState(() {
+        _isLoading = true;
+      });
+      try {
+        if (_authMode == AuthMode.Login) {
+          // Log user in
+          _loginBloc.add(LogIn(
+            email: _authData['email']!,
+            password: _authData['password']!,
+          ));
+        } else {
+          // Sign user up
+          _signUpBloc.add(SignUp(
+            signUpData: _authData
+          ));
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Berhasil Daftar',
+              ),
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+      } on HttpException catch (error) {
+        var errorMessage = 'Authentication failed';
+        if (error.toString().contains('EMAIL_EXISTS')) {
+          errorMessage = 'This email address is already in use.';
+        } else if (error.toString().contains('INVALID_EMAIL')) {
+          errorMessage = 'This is not a valid email address';
+        } else if (error.toString().contains('WEAK_PASSWORD')) {
+          errorMessage = 'This password is too weak.';
+        } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
+          errorMessage = 'Could not find a user with that email.';
+        } else if (error.toString().contains('INVALID_PASSWORD')) {
+          errorMessage = 'Invalid password.';
+        }
+        _showErrorDialog(errorMessage);
+      } catch (error) {
+        print(error);
+        const errorMessage =
+            'Could not authenticate you. Please try again later.';
+        _showErrorDialog(errorMessage);
+      }
+
+      setState(() {
+        _isLoading = false;
+      });
+    }
 
     return ListView(
       controller: widget.sc,

@@ -56,7 +56,7 @@ class _TabScreenState extends State<TabScreen>
               BukuSakuScreen(),
               InfoTrainingScreen(),
               FeedsScreen(),
-              ProfileScreen(),
+              // ProfileScreen(),
             ],
           ),
         ),

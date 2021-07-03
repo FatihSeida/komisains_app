@@ -95,6 +95,15 @@ class UserRepository {
     }
   }
 
+  Future<UserClass> getData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final extractedUserData =
+        json.decode(prefs.getString('userData').toString());
+    final user = UserClass.fromMap(extractedUserData['user']);
+    final _items = user;
+    return _items;
+  }
+
   Future<UserClass> getProfile() async {
     try {
       final response = await http.get(

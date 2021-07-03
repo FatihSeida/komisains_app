@@ -26,15 +26,7 @@ class EbookRepository {
       for (Map<String, dynamic> i in extractedData["ebook"]) {
         loaded.add(Book.fromMap(i));
       }
-      if (category == 'Materi Wajib') {
-        return loaded
-            .where((loadedItem) => loadedItem.category == 'Materi Wajib')
-            .toList();
-      } else {
-        return loaded
-            .where((loadedItem) => loadedItem.category == 'Resensi')
-            .toList();
-      }
+      return loaded;
     } catch (e) {
       print(e);
       throw (e);

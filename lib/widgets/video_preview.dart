@@ -1,10 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:komisains_app/modules/youtube_channel/bloc/youtube_channel_bloc.dart';
 import 'dart:math' as math;
-
-import 'package:komisains_app/modules/youtube_channel/models/youtube_channel.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class VideoPreview extends StatefulWidget {
@@ -15,8 +14,6 @@ class VideoPreview extends StatefulWidget {
 class _VideoPreviewState extends State<VideoPreview> {
   late PageController pageController;
   double pageOffset = 0;
-  var _isInit = true;
-  var _isLoading = false;
 
   @override
   void initState() {
@@ -33,44 +30,54 @@ class _VideoPreviewState extends State<VideoPreview> {
     pageController.dispose();
   }
 
-  @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      setState(() {
-        _isLoading = true;
-      });
-      Provider.of<YTProvider>(context).getPickup().then((_) {
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-          });
-        }
-      });
-    }
-    _isInit = false;
-    super.didChangeDependencies();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   if (_isInit) {
+  //     setState(() {
+  //       _isLoading = true;
+  //     });
+  //     Provider.of<YTProvider>(context).getPickup().then((_) {
+  //       if (mounted) {
+  //         setState(() {
+  //           _isLoading = false;
+  //         });
+  //       }
+  //     });
+  //   }
+  //   _isInit = false;
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final youtube = Provider.of<YTProvider>(context, listen: false).items;
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.45,
-      child: PageView.builder(
-        controller: pageController,
-        itemBuilder: (context, index) {
-          return ChangeNotifierProvider.value(
-            value: youtube[index],
-            child: SlidingCard(
-              name: youtube[index].title,
-              assetName: youtube[index].thumbnail,
-              url: youtube[index].url,
-              offset: pageOffset - index,
+    return BlocBuilder<YoutubeChannelBloc, YoutubeChannelState>(
+      builder: (context, state) {
+        if (state is YoutubeChannelStateLoad) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is YoutubeChannelStateLoaded) {
+          return SizedBox(
+            height: MediaQuery.of(context).size.height * 0.45,
+            child: PageView.builder(
+              controller: pageController,
+              itemBuilder: (context, index) {
+                return SlidingCard(
+                  name: state.datum[index].title,
+                  assetName: state.datum[index].thumbnail,
+                  url: state.datum[index].url,
+                  offset: pageOffset - index,
+                );
+              },
+              itemCount: state.datum.length < 7 ? state.datum.length : 6,
             ),
           );
-        },
-        itemCount: youtube.length < 7 ? youtube.length : 6,
-      ),
+        } else {
+          return Center(
+            child: Text('Error'),
+          );
+        }
+      },
     );
   }
 }

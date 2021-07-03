@@ -1,10 +1,10 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:komisains_app/modules/ebook/models/books.dart';
 import 'dart:math' as math;
 import 'package:flutter/rendering.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:komisains_app/modules/ebook/bloc/ebook_bloc.dart';
 
 class BukuSakuView extends StatefulWidget {
   @override
@@ -14,9 +14,6 @@ class BukuSakuView extends StatefulWidget {
 class _BukuSakuViewState extends State<BukuSakuView> {
   late PageController pageController;
   double pageOffset = 0;
-  var _isInit = true;
-  var _isLoading = false;
-
   @override
   void initState() {
     super.initState();
@@ -32,145 +29,155 @@ class _BukuSakuViewState extends State<BukuSakuView> {
     super.dispose();
   }
 
-  @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      setState(() {
-        _isLoading = true;
-      });
-      Provider.of<BooksProvider>(context).getPickup().then((_) {
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-          });
-        }
-      });
-    }
-    _isInit = false;
-    super.didChangeDependencies();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   if (_isInit) {
+  //     setState(() {
+  //       _isLoading = true;
+  //     });
+  //     Provider.of<BooksProvider>(context).getPickup().then((_) {
+  //       if (mounted) {
+  //         setState(() {
+  //           _isLoading = false;
+  //         });
+  //       }
+  //     });
+  //   }
+  //   _isInit = false;
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final booksData =
-        Provider.of<BooksProvider>(context, listen: false).materiWajib;
     ContainerTransitionType _transitionType = ContainerTransitionType.fade;
 
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.4,
-      child: _isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : PageView.builder(
+    return BlocBuilder<EbookBloc, EbookState>(
+      builder: (context, state) {
+        if (state is EbookStateLoad) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is EbookStateLoaded) {
+          final materiWajib = state.books
+              .where((booksItem) => booksItem.category == 'Materi Wajib')
+              .toList();
+          return SizedBox(
+            height: MediaQuery.of(context).size.height * 0.4,
+            child: PageView.builder(
               controller: pageController,
               itemBuilder: (BuildContext context, int index) {
                 final sumOffset = pageOffset - index;
-                return ChangeNotifierProvider.value(
-                  value: booksData[index],
-                  child: OpenContainer<bool>(
-                    closedColor: Colors.transparent,
-                    closedElevation: 0,
-                    closedShape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                    transitionDuration: Duration(milliseconds: 400),
-                    transitionType: _transitionType,
-                    openBuilder: (context, openContainer) {
-                      return Scaffold(
-                        appBar: AppBar(
-                          backgroundColor: Colors.transparent,
-                          iconTheme: IconThemeData(color: Color(0xff3BBC86)),
-                          elevation: 0,
-                        ),
-                        body: Container(
-                            child: PDFViewerCachedFromUrl(
-                                url: booksData[index].file)),
-                      );
-                    },
-                    closedBuilder: (context, openContainer) {
-                      double gauss = math
-                          .exp(-(math.pow((sumOffset.abs() - 0.5), 2) / 0.08));
-                      return InkWell(
-                        customBorder: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        onTap: openContainer,
-                        child: Transform.translate(
-                          offset: Offset(-32 * gauss * sumOffset.sign, 0),
-                          child: Container(
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12)),
-                              child: Stack(
-                                alignment: Alignment.bottomLeft,
-                                children: <Widget>[
-                                  ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(12)),
-                                    child: Image.network(
-                                      booksData[index].thumbnail,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.4,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.44,
-                                      alignment: Alignment(-sumOffset.abs(), 0),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  SizedBox(
+                return OpenContainer<bool>(
+                  closedColor: Colors.transparent,
+                  closedElevation: 0,
+                  closedShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                  transitionDuration: Duration(milliseconds: 400),
+                  transitionType: _transitionType,
+                  openBuilder: (context, openContainer) {
+                    return Scaffold(
+                      appBar: AppBar(
+                        backgroundColor: Colors.transparent,
+                        iconTheme: IconThemeData(color: Color(0xff3BBC86)),
+                        elevation: 0,
+                      ),
+                      body: Container(
+                          child: PDFViewerCachedFromUrl(
+                              url: materiWajib[index].file
+                              )),
+                    );
+                  },
+                  closedBuilder: (context, openContainer) {
+                    double gauss = math
+                        .exp(-(math.pow((sumOffset.abs() - 0.5), 2) / 0.08));
+                    return InkWell(
+                      customBorder: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      onTap: openContainer,
+                      child: Transform.translate(
+                        offset: Offset(-32 * gauss * sumOffset.sign, 0),
+                        child: Container(
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)),
+                            child: Stack(
+                              alignment: Alignment.bottomLeft,
+                              children: <Widget>[
+                                ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12)),
+                                  child: Image.network(
+                                    materiWajib[index].thumbnail,
+                                    height:
+                                        MediaQuery.of(context).size.height *
+                                            0.4,
                                     width: MediaQuery.of(context).size.width *
                                         0.44,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(15.0),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Transform.translate(
-                                            offset: Offset(8 * sumOffset, 0),
-                                            child: Text(booksData[index].name,
-                                                style: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white,
-                                                  shadows: <Shadow>[
-                                                    Shadow(
-                                                      offset: Offset(0, 0),
-                                                      blurRadius: 3.0,
-                                                      color: Colors.grey,
-                                                    ),
-                                                    Shadow(
-                                                      offset: Offset(0, 0),
-                                                      blurRadius: 3.0,
-                                                      color: Colors.grey,
-                                                    ),
-                                                  ],
-                                                )),
-                                          ),
-                                        ],
-                                      ),
+                                    alignment: Alignment(-sumOffset.abs(), 0),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width *
+                                      0.44,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Transform.translate(
+                                          offset: Offset(8 * sumOffset, 0),
+                                          child: Text(materiWajib[index].name,
+                                              style: const TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                                shadows: <Shadow>[
+                                                  Shadow(
+                                                    offset: Offset(0, 0),
+                                                    blurRadius: 3.0,
+                                                    color: Colors.grey,
+                                                  ),
+                                                  Shadow(
+                                                    offset: Offset(0, 0),
+                                                    blurRadius: 3.0,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 );
               },
-              itemCount: booksData.length < 7 ? booksData.length : 6,
+              itemCount: materiWajib.length < 7 ? materiWajib.length : 6,
             ),
+          );
+        } else {
+          return Center(
+            child: Text('Error'),
+          );
+        }
+      },
     );
   }
 }
 
 class PDFViewerCachedFromUrl extends StatefulWidget {
-  const PDFViewerCachedFromUrl({Key? key, @required this.url}) : super(key: key);
+  const PDFViewerCachedFromUrl({Key? key, required this.url})
+      : super(key: key);
 
   final String url;
 
@@ -196,14 +203,14 @@ class _PDFViewerCachedFromUrlState extends State<PDFViewerCachedFromUrl> {
           },
           onRender: (_pages) {
             setState(() {
-              _totalPages = _pages;
+              _totalPages = _pages!;
               pdfReady = true;
             });
           },
-          onPageChanged: (int page, int total) {
+          onPageChanged: (int? page, int? total) {
             setState(() {
-              _currentPage = page + 1;
-              _totalPages = total;
+              _currentPage = (page! + 1);
+              _totalPages = total!;
             });
           },
           onViewCreated: (PDFViewController vc) {

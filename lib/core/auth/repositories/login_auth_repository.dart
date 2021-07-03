@@ -71,6 +71,8 @@ class LoginAuthRepository {
     }
   }
 
+
+
   Future<bool> tryAutoLogin() async {
     final prefs = await SharedPreferences.getInstance();
     if (!prefs.containsKey('userData')) {
@@ -90,14 +92,6 @@ class LoginAuthRepository {
     _items = user;
     _autoLogout();
     return true;
-  }
-
-  Future<void> getData() async {
-    final prefs = await SharedPreferences.getInstance();
-    final extractedUserData =
-        json.decode(prefs.getString('userData').toString());
-    final user = UserClass.fromMap(extractedUserData['user']);
-    _items = user;
   }
 
   Future<void> logout() async {

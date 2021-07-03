@@ -7,6 +7,4 @@ abstract class EbookEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FetchMateriWajib extends EbookEvent {}
-
-class FetchResensi extends EbookEvent {}
+class FetchEbooks extends EbookEvent {}

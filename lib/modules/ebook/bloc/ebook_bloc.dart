@@ -17,27 +17,15 @@ class EbookBloc extends Bloc<EbookEvent, EbookState> {
   Stream<EbookState> mapEventToState(
     EbookEvent event,
   ) async* {
-    if (event is FetchMateriWajib) {
-      yield* _mapFetchMateriWajibToState();
-    } else if (event is FetchResensi) {
-      yield* _mapFetchResensiToState();
-    }
+    if (event is FetchEbooks) {
+      yield* _mapFetchEbooksToState();
+    } 
   }
 
-  Stream<EbookState> _mapFetchMateriWajibToState() async* {
+  Stream<EbookState> _mapFetchEbooksToState() async* {
     yield EbookStateLoad();
     try {
       final ebookData = await ebookRepository.fetchData('Materi Wajib');
-      yield EbookStateLoaded(books: ebookData);
-    } catch (_) {
-      yield EbookStateError();
-    }
-  }
-
-  Stream<EbookState> _mapFetchResensiToState() async* {
-    yield EbookStateLoad();
-    try {
-      final ebookData = await ebookRepository.fetchData('Resensi');
       yield EbookStateLoaded(books: ebookData);
     } catch (_) {
       yield EbookStateError();
