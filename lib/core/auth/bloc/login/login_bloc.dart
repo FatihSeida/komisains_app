@@ -30,9 +30,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> mapLogInToState(String email, String password) async* {
     yield LoginLoading();
     try {
-      final isLogin = await loginLoginRepository.login(email, password);
-      if (isLogin) {
-        authenticationBloc.add(UserLoggedIn(isAuth: isLogin));
+      final userData = await loginLoginRepository.login(email, password);
+      if (userData) {
+        authenticationBloc.add(UserLoggedIn(userData: userData));
         yield LoginSuccess();
         yield LoginInitial();
       } else {

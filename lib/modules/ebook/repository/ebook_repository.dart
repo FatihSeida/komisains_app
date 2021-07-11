@@ -1,18 +1,23 @@
 import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:komisains_app/modules/ebook/models/books.dart';
 
 class EbookRepository {
-  final String? authToken;
   final String? userId;
+  final String? authToken;
 
-  EbookRepository({this.authToken, this.userId});
+  EbookRepository({
+    this.userId,
+    this.authToken,
+  });
 
-  Future<List<Book>> fetchData(String category) async {
+  Future<List<Book>> fetchData(String authToken) async {
     try {
       final response = await http.get(
-          Uri.parse('https://api.komdakkomcakaba.my.id/api/calendars'),
+          Uri.parse('https://api.komdakkomcakaba.my.id/api/ebooks'),
           headers: {
             'Content-type': 'application/json',
             'Accept': '/',

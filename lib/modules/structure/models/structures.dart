@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
-class Structures with ChangeNotifier {
+class Structures {
   Structures({
     required this.structures,
     required this.message,
@@ -28,7 +28,7 @@ class Structures with ChangeNotifier {
       };
 }
 
-class Structure with ChangeNotifier {
+class Structure {
   Structure({
     required this.id,
     required this.name,

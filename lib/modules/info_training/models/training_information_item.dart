@@ -27,7 +27,7 @@ class InfoTraining {
       };
 }
 
-class Info with ChangeNotifier {
+class Info {
   Info({
     required this.id,
     required this.title,
@@ -63,7 +63,8 @@ class Info with ChangeNotifier {
         url: json["url"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        thumbnail: 'https://komdakkomcakaba.my.id/info-training-thumbnail/${json["thumbnail"]}',
+        thumbnail:
+            'https://komdakkomcakaba.my.id/info-training-thumbnail/${json["thumbnail"]}',
       );
 
   Map<String, dynamic> toMap() => {

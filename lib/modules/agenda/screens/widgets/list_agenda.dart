@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:komisains_app/modules/agenda/bloc/agenda_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 
 class ListAgenda extends StatefulWidget {
@@ -15,9 +14,11 @@ class ListAgenda extends StatefulWidget {
 class _ListAgendaState extends State<ListAgenda> {
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
+  late AgendaBloc agendaBloc;
 
   @override
   void initState() {
+    agendaBloc = context.read<AgendaBloc>();
     super.initState();
   }
 
@@ -26,23 +27,11 @@ class _ListAgendaState extends State<ListAgenda> {
     super.dispose();
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   if (_isInit) {
-  //     setState(() {
-  //       _isLoading = true;
-  //     });
-  //     Provider.of<AgendaProvider>(context).getPickup().then((_) {
-  //       if (mounted) {
-  //         setState(() {
-  //           _isLoading = false;
-  //         });
-  //       }
-  //     });
-  //   }
-  //   _isInit = false;
-  //   super.didChangeDependencies();
-  // }
+  @override
+  void didChangeDependencies() {
+    agendaBloc.add(FetchAgenda());
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +154,8 @@ class _ListAgendaState extends State<ListAgenda> {
                                           description:
                                               state.calendar[index].description,
                                           timeZone: "GMT+07:00",
-                                          location: state.calendar[index].tempat),
+                                          location:
+                                              state.calendar[index].tempat),
                                     ).then((success) {
                                       scaffoldMessengerKey.currentState!
                                           .showSnackBar(SnackBar(

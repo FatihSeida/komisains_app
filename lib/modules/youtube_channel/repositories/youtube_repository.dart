@@ -1,14 +1,20 @@
 import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+
 import 'package:komisains_app/modules/youtube_channel/models/youtube_channel.dart';
 
 class YoutubeRepository {
-  final String? authToken;
   final String? userId;
+  // final String? authToken;
 
-  YoutubeRepository({this.authToken, this.userId});
+  YoutubeRepository({
+    this.userId,
+    // this.authToken,
+  });
 
-  Future<List<Datum>> fetchData() async {
+  Future<List<Datum>> fetchData(String? authToken) async {
     try {
       final response = await http.get(
           Uri.parse('https://api.komdakkomcakaba.my.id/api/yt-channels'),

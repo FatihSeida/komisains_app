@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:komisains_app/modules/news/models/news.dart';
 import 'package:komisains_app/modules/news/repositories/news_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'news_event.dart';
 part 'news_state.dart';

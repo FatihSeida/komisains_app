@@ -12,13 +12,14 @@ class AppLoaded extends AuthenticationEvent {}
 
 // Fired when a user has successfully logged in
 class UserLoggedIn extends AuthenticationEvent {
-  final bool isAuth;
+  final dynamic userData;
 
-  UserLoggedIn({required this.isAuth});
+  UserLoggedIn({required this.userData});
 
   @override
-  List<Object> get props => [isAuth];
+  List<Object> get props => [userData];
 }
 
 // Fired when the user has logged out
 class UserLoggedOut extends AuthenticationEvent {}
+

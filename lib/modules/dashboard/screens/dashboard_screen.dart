@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:komisains_app/core/auth/repositories/login_auth_repository.dart';
+import 'package:komisains_app/modules/agenda/bloc/agenda_bloc.dart';
+import 'package:komisains_app/modules/agenda/repositories/agenda_repository.dart';
+import 'package:komisains_app/modules/news/bloc/news_bloc.dart';
+import 'package:komisains_app/modules/news/repositories/news_repository.dart';
+import 'package:komisains_app/modules/youtube_channel/bloc/youtube_channel_bloc.dart';
+import 'package:komisains_app/modules/youtube_channel/repositories/youtube_repository.dart';
 // import 'package:komisains_app/core/auth/models/auth.dart';
 import 'package:komisains_app/widgets/header_app.dart';
-import 'package:komisains_app/widgets/list_agenda.dart';
+import 'package:komisains_app/modules/agenda/screens/widgets/list_agenda.dart';
 import 'package:komisains_app/widgets/profil_komisariat_button.dart';
 import 'package:komisains_app/widgets/title_widget.dart';
-import 'package:komisains_app/widgets/video_preview.dart';
-import 'package:komisains_app/widgets/news_card.dart';
+import 'package:komisains_app/modules/youtube_channel/screens/widgets/video_preview.dart';
+import 'package:komisains_app/modules/news/screens/widgets/news_card.dart';
 import 'package:provider/provider.dart';
 
 import '../../agenda/screens/more_detail_agenda_screen.dart';
@@ -32,7 +40,11 @@ class DashboardScreen extends StatelessWidget {
               Navigator.of(context).pushNamed(MoreDetailNewsScreen.routeName);
             },
           ),
-          WelcomeSlidingCard(),
+          BlocProvider<NewsBloc>(
+            create: (context) => NewsBloc(
+                newsRepository: RepositoryProvider.of<NewsRepository>(context)),
+            child: WelcomeSlidingCard(),
+          ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.01,
           ),
@@ -58,7 +70,13 @@ class DashboardScreen extends StatelessWidget {
               Navigator.of(context).pushNamed(MoreDetailAgendaScreen.routeName);
             },
           ),
-          ListAgenda(),
+          BlocProvider<AgendaBloc>(
+            create: (context) => AgendaBloc(
+              agendaRepository:
+                  RepositoryProvider.of<AgendaRepository>(context),
+            ),
+            child: ListAgenda(),
+          ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.03,
           ),
@@ -72,7 +90,13 @@ class DashboardScreen extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.03,
           ),
-          VideoPreview(),
+          BlocProvider<YoutubeChannelBloc>(
+            create: (context) => YoutubeChannelBloc(
+              youtubeRepository:
+                  RepositoryProvider.of<YoutubeRepository>(context),
+            ),
+            child: VideoPreview(),
+          ),
         ],
       ),
     );

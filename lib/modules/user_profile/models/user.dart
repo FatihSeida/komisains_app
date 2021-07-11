@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
-class User with ChangeNotifier {
+class User {
   User({
     required this.error,
     required this.tokenType,
@@ -41,7 +41,7 @@ class User with ChangeNotifier {
       };
 }
 
-class UserClass with ChangeNotifier {
+class UserClass {
   UserClass({
     required this.id,
     required this.name,

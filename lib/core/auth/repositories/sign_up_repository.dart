@@ -4,10 +4,9 @@ import 'package:http/http.dart' as http;
 class SignUpRepository {
   Future<String> signup(Map<String, String> profile) async {
     try {
-      final response =
-          await http.post(Uri.parse('https://api.komdakkomcakaba.my.id/api/register'),
-              body:
-                  json.encode(
+      final response = await http
+          .post(Uri.parse('https://api.komdakkomcakaba.my.id/api/register'),
+              body: json.encode(
                 {
                   'name': profile['name'],
                   'email': profile['email'],

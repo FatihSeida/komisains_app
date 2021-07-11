@@ -29,7 +29,6 @@ class MoreDetailAgendaScreen extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else if (state is AgendaStateLoaded) {
-            
             return ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,

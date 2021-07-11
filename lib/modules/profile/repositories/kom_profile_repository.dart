@@ -1,15 +1,19 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 import 'package:komisains_app/modules/profile/models/kom_profile.dart';
 
 class KomProfileRepository {
-  final String? authToken;
   final String? userId;
+  // final String? authToken;
 
-  KomProfileRepository({this.authToken, this.userId});
+  KomProfileRepository({
+    this.userId,
+    // this.authToken,
+  });
 
-  Future<CakabaProfile> fetchData() async {
+  Future<CakabaProfile> fetchData(String authToken) async {
     try {
       final response = await http.get(
           Uri.parse('https://api.komdakkomcakaba.my.id/api/info-training'),
@@ -22,7 +26,8 @@ class KomProfileRepository {
           });
 
       final extractedData = json.decode(response.body.toString());
-      final CakabaProfile loaded = CakabaProfile.fromMap(extractedData['cakaba-profile']);
+      final CakabaProfile loaded =
+          CakabaProfile.fromMap(extractedData['cakaba-profile']);
       return loaded;
     } catch (e) {
       print(e);

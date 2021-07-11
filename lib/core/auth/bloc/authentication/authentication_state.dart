@@ -14,12 +14,13 @@ class AuthenticationLoading extends AuthenticationState {}
 class AuthenticationNotAuthenticated extends AuthenticationState {}
 
 class AuthenticationAuthenticated extends AuthenticationState {
-  final bool isAuth;
+  final dynamic userData;
 
-  AuthenticationAuthenticated({required this.isAuth});
+
+  AuthenticationAuthenticated({this.userData});
 
   @override
-  List<Object> get props => [isAuth];
+  List<Object> get props => [userData];
 }
 
 class AuthenticationFailure extends AuthenticationState {

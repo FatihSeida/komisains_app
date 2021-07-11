@@ -6,7 +6,7 @@ import 'package:komisains_app/modules/user_profile/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginAuthRepository {
-  String? _token;
+  late String? _token;
   DateTime? _expiryDate;
   String? _userId;
   Timer? _authTimer;
@@ -16,18 +16,17 @@ class LoginAuthRepository {
     return _items;
   }
 
-  String? get token {
-    if (_expiryDate != null && _token != null) {
-      return _token;
-    }
-    return null;
+  Future<String?> get token async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    return token;
   }
 
   String? get userId {
     return _userId;
   }
 
-  Future<bool> login(String email, String password) async {
+  Future<dynamic> login(String email, String password) async {
     try {
       final response = await http
           .post(Uri.parse('https://api.komdakkomcakaba.my.id/api/login'),
@@ -45,6 +44,7 @@ class LoginAuthRepository {
             'Connection': 'keep-alive',
           });
       final responseData = json.decode(response.body.toString());
+      print(response.statusCode);
       final user = UserClass.fromMap(responseData['user']);
       _items = user;
       _token = responseData['access_token'];
@@ -55,6 +55,7 @@ class LoginAuthRepository {
         ),
       );
       _autoLogout();
+
       final prefs = await SharedPreferences.getInstance();
       final userData = json.encode(
         {
@@ -65,15 +66,14 @@ class LoginAuthRepository {
         },
       );
       prefs.setString('userData', userData);
-      return token != null;
+
+      return userData;
     } catch (error) {
       throw error;
     }
   }
 
-
-
-  Future<bool> tryAutoLogin() async {
+  Future<dynamic> tryAutoLogin() async {
     final prefs = await SharedPreferences.getInstance();
     if (!prefs.containsKey('userData')) {
       return false;

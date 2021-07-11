@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:komisains_app/core/auth/bloc/authentication/authentication_bloc.dart';
+import 'package:komisains_app/core/auth/bloc/login/login_bloc.dart';
+import 'package:komisains_app/core/auth/bloc/sign_up/sign_up_bloc.dart';
+import 'package:komisains_app/core/auth/repositories/login_auth_repository.dart';
+import 'package:komisains_app/core/auth/repositories/sign_up_repository.dart';
+import 'package:komisains_app/modules/news/bloc/news_bloc.dart';
+import 'package:komisains_app/modules/news/repositories/news_repository.dart';
 import 'package:komisains_app/modules/news/screens/more_detail_news_screen.dart';
-import 'package:komisains_app/widgets/about_organization.dart';
-import 'package:komisains_app/widgets/auth_screen.dart';
+import 'package:komisains_app/core/auth/screens/widgets/about_organization.dart';
+import 'package:komisains_app/core/auth/screens/widgets/auth_screen.dart';
 import 'package:komisains_app/widgets/header_welcome.dart';
-import 'package:komisains_app/widgets/news_card.dart';
+import 'package:komisains_app/modules/news/screens/widgets/news_card.dart';
 import 'package:komisains_app/widgets/title_widget.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -47,14 +55,36 @@ class WelcomeScreen extends StatelessWidget {
                           .pushNamed(MoreDetailNewsScreen.routeName);
                     },
                   ),
-                  WelcomeSlidingCard(),
+                  BlocProvider<NewsBloc>(
+                    create: (context) => NewsBloc(
+                        newsRepository:
+                            RepositoryProvider.of<NewsRepository>(context))
+                      ..add(FetchNews()),
+                    child: WelcomeSlidingCard(),
+                  ),
                   AboutOrganization(text),
                 ],
               ),
             ),
           ],
         ),
-        panelBuilder: (sc) => AuthCard(sc: sc),
+        panelBuilder: (sc) => MultiBlocProvider(
+          providers: [
+            BlocProvider<LoginBloc>(
+                create: (context) => LoginBloc(
+                      authenticationBloc:
+                          BlocProvider.of<AuthenticationBloc>(context),
+                      loginLoginRepository:
+                          RepositoryProvider.of<LoginAuthRepository>(context),
+                    )),
+            BlocProvider<SignUpBloc>(
+                create: (context) => SignUpBloc(
+                      signUpRepository:
+                          RepositoryProvider.of<SignUpRepository>(context),
+                    )),
+          ],
+          child: AuthCard(sc: sc),
+        ),
       ),
     );
   }

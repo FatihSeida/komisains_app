@@ -27,7 +27,7 @@ class KomProfile {
       };
 }
 
-class CakabaProfile with ChangeNotifier {
+class CakabaProfile {
   CakabaProfile({
     required this.id,
     required this.description,

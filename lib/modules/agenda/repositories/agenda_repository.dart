@@ -1,15 +1,20 @@
 import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:komisains_app/modules/agenda/models/agenda.dart';
 
 class AgendaRepository {
-  final String? authToken;
   final String? userId;
+  // final String? authToken;
 
-  AgendaRepository({this.authToken, this.userId});
+  AgendaRepository({
+    this.userId,
+    // this.authToken,
+  });
 
-  Future<List<Calendar>> fetchData() async {
+  Future<List<Calendar>> fetchData(String authToken) async {
     try {
       final response = await http.get(
           Uri.parse('https://api.komdakkomcakaba.my.id/api/calendars'),
@@ -27,7 +32,6 @@ class AgendaRepository {
         loaded.add(Calendar.fromMap(i));
       }
       return loaded;
-
     } catch (e) {
       print(e);
       throw (e);

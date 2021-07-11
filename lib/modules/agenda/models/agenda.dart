@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
-class Agenda with ChangeNotifier {
+class Agenda {
   Agenda({
     required this.calendars,
     required this.message,
@@ -27,7 +27,7 @@ class Agenda with ChangeNotifier {
       };
 }
 
-class Calendar with ChangeNotifier {
+class Calendar {
   Calendar({
     required this.id,
     required this.name,

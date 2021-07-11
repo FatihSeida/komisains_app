@@ -13,8 +13,10 @@ class InfoTraining extends StatefulWidget {
 }
 
 class _InfoTrainingState extends State<InfoTraining> {
+  late InfoTrainingBloc infoTrainingBloc;
   @override
   void initState() {
+    infoTrainingBloc = context.read<InfoTrainingBloc>();
     super.initState();
   }
 
@@ -23,23 +25,11 @@ class _InfoTrainingState extends State<InfoTraining> {
     super.dispose();
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   if (_isInit) {
-  //     setState(() {
-  //       _isLoading = true;
-  //     });
-  //     Provider.of<TrainingInfoProvider>(context).getPickup().then((_) {
-  //       if (mounted) {
-  //         setState(() {
-  //           _isLoading = false;
-  //         });
-  //       }
-  //     });
-  //   }
-  //   _isInit = false;
-  //   super.didChangeDependencies();
-  // }
+  @override
+  void didChangeDependencies() {
+    infoTrainingBloc.add(FetchInfoTraining());
+    super.didChangeDependencies();
+  }
 
   void _launchURL(String _url) async => await canLaunch(_url)
       ? await launch(_url)
@@ -59,7 +49,7 @@ class _InfoTrainingState extends State<InfoTraining> {
             shrinkWrap: true,
             itemBuilder: (context, index) {
               return InkWell(
-                onTap: () => _launchURL(state.books[index].url),
+                onTap: () => _launchURL(state.infoTraining[index].url),
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height * 0.2,
                   width: MediaQuery.of(context).size.width * 0.11,
@@ -75,7 +65,7 @@ class _InfoTrainingState extends State<InfoTraining> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.all(Radius.circular(18)),
                             child: Image.network(
-                              state.books[index].thumbnail,
+                              state.infoTraining[index].thumbnail,
                               height: MediaQuery.of(context).size.height * 0.17,
                               width: MediaQuery.of(context).size.width * 0.4,
                               fit: BoxFit.cover,
@@ -90,7 +80,7 @@ class _InfoTrainingState extends State<InfoTraining> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 AutoSizeText(
-                                  state.books[index].title,
+                                  state.infoTraining[index].title,
                                   maxLines: 4,
                                   style: const TextStyle(
                                     fontSize: 18,
@@ -99,7 +89,7 @@ class _InfoTrainingState extends State<InfoTraining> {
                                   ),
                                 ),
                                 AutoSizeText(
-                                  '${DateFormat.yMMMd('en_US').format(state.books[index].dateStart)} s/d ${DateFormat.yMMMd('en_US').format(state.books[index].dateEnd)}',
+                                  '${DateFormat.yMMMd('en_US').format(state.infoTraining[index].dateStart)} s/d ${DateFormat.yMMMd('en_US').format(state.infoTraining[index].dateEnd)}',
                                   style: const TextStyle(
                                     fontSize: 12,
                                   ),
@@ -115,7 +105,7 @@ class _InfoTrainingState extends State<InfoTraining> {
                                           backgroundColor:
                                               const Color(0xffB5EFD7),
                                           label: Text(
-                                            state.books[index].province,
+                                            state.infoTraining[index].province,
                                             style: const TextStyle(
                                                 color: const Color(0xff3BBC86),
                                                 fontSize: 10),
@@ -125,8 +115,8 @@ class _InfoTrainingState extends State<InfoTraining> {
                                           backgroundColor:
                                               const Color(0xffEFB5B5),
                                           label: Text(
-                                            '${state.books[index].dateStart.difference(DateTime.now()).inDays} Hari Lagi',
-                                            // DateFormat.yMMMd('id_ID').format(state.books[index].dateStart).difference(DateFormat.yMMMd('id_ID').format(state.books[index].dateEnd)).inDays,
+                                            '${state.infoTraining[index].dateStart.difference(DateTime.now()).inDays} Hari Lagi',
+                                            // DateFormat.yMMMd('id_ID').format(state.infoTraining[index].dateStart).difference(DateFormat.yMMMd('id_ID').format(state.infoTraining[index].dateEnd)).inDays,
                                             style: const TextStyle(
                                                 color: const Color(0xffED455D),
                                                 fontSize: 10),
@@ -146,7 +136,7 @@ class _InfoTrainingState extends State<InfoTraining> {
                 ),
               );
             },
-            itemCount: state.books.length,
+            itemCount: state.infoTraining.length,
           );
         } else {
           return Center(

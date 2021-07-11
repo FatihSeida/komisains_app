@@ -14,9 +14,11 @@ class VideoPreview extends StatefulWidget {
 class _VideoPreviewState extends State<VideoPreview> {
   late PageController pageController;
   double pageOffset = 0;
+  late YoutubeChannelBloc youtubeChannelBloc;
 
   @override
   void initState() {
+    youtubeChannelBloc = context.read<YoutubeChannelBloc>();
     super.initState();
     pageController = PageController(viewportFraction: 0.8);
     pageController.addListener(() {
@@ -30,23 +32,11 @@ class _VideoPreviewState extends State<VideoPreview> {
     pageController.dispose();
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   if (_isInit) {
-  //     setState(() {
-  //       _isLoading = true;
-  //     });
-  //     Provider.of<YTProvider>(context).getPickup().then((_) {
-  //       if (mounted) {
-  //         setState(() {
-  //           _isLoading = false;
-  //         });
-  //       }
-  //     });
-  //   }
-  //   _isInit = false;
-  //   super.didChangeDependencies();
-  // }
+  @override
+  void didChangeDependencies() {
+    youtubeChannelBloc.add(FetchYoutubeVideo());
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {

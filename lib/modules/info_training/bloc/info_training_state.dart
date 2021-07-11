@@ -12,14 +12,14 @@ class InfoTrainingInitial extends InfoTrainingState {}
 class InfoTrainingStateLoad extends InfoTrainingState {}
 
 class InfoTrainingStateLoaded extends InfoTrainingState {
-  final List<Info> books;
+  final List<Info> infoTraining;
 
   InfoTrainingStateLoaded({
-    required this.books,
+    required this.infoTraining,
   });
 
   @override
-  List<Object> get props => [books];
+  List<Object> get props => [infoTraining];
 }
 
 class InfoTrainingStateError extends InfoTrainingState {}

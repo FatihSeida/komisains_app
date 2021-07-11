@@ -21,4 +21,3 @@ class AgendaStateLoaded extends AgendaState {
 }
 
 class AgendaStateError extends AgendaState {}
-

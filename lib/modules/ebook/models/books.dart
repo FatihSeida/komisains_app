@@ -26,7 +26,7 @@ class Books {
       };
 }
 
-class Book with ChangeNotifier {
+class Book {
   Book({
     required this.id,
     required this.name,
@@ -59,7 +59,8 @@ class Book with ChangeNotifier {
         category: json["category"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        thumbnail: 'https://komdakkomcakaba.my.id/ebooks-thumbnail/${json["thumbnail"]}',
+        thumbnail:
+            'https://komdakkomcakaba.my.id/ebooks-thumbnail/${json["thumbnail"]}',
       );
 
   Map<String, dynamic> toMap() => {

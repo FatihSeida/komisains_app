@@ -7,6 +7,7 @@ import 'dart:math' as math;
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:komisains_app/modules/news/bloc/news_bloc.dart';
+import 'package:komisains_app/modules/news/repositories/news_repository.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_html/flutter_html.dart';
 
@@ -18,11 +19,11 @@ class WelcomeSlidingCard extends StatefulWidget {
 class _WelcomeSlidingCardState extends State<WelcomeSlidingCard> {
   late PageController pageController;
   double pageOffset = 0;
-  var _isInit = true;
-  var _isLoading = false;
+  late NewsBloc newsBloc;
 
   @override
   void initState() {
+    newsBloc = context.read<NewsBloc>();
     super.initState();
     pageController = PageController(viewportFraction: 0.7);
     pageController.addListener(() {
@@ -36,23 +37,11 @@ class _WelcomeSlidingCardState extends State<WelcomeSlidingCard> {
     super.dispose();
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   if (_isInit) {
-  //     setState(() {
-  //       _isLoading = true;
-  //     });
-  //     Provider.of<NewsProvider>(context).getPickup().then((_) {
-  //       if (mounted) {
-  //         setState(() {
-  //           _isLoading = false;
-  //         });
-  //       }
-  //     });
-  //   }
-  //   _isInit = false;
-  //   super.didChangeDependencies();
-  // }
+  @override
+  void didChangeDependencies() {
+    newsBloc.add(FetchNews());
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +89,8 @@ class _WelcomeSlidingCardState extends State<WelcomeSlidingCard> {
                               },
                             ),
                             Container(
-                              padding: const EdgeInsets.only(left: 15, top: 20),
+                              padding:
+                                  const EdgeInsets.only(left: 15, top: 20),
                               child: AutoSizeText(
                                 state.news[index].title,
                                 maxLines: 3,
@@ -115,7 +105,10 @@ class _WelcomeSlidingCardState extends State<WelcomeSlidingCard> {
                               children: <Widget>[
                                 Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 15, right: 15, top: 5, bottom: 5),
+                                        left: 15,
+                                        right: 15,
+                                        top: 5,
+                                        bottom: 5),
                                     child: Text(
                                       state.news[index].by,
                                       style: const TextStyle(
@@ -135,7 +128,8 @@ class _WelcomeSlidingCardState extends State<WelcomeSlidingCard> {
                               ],
                             ),
                             Container(
-                              height: MediaQuery.of(context).size.height * 0.35,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.35,
                               width: MediaQuery.of(context).size.width * 1,
                               child: Padding(
                                 padding: const EdgeInsets.all(10),
@@ -168,7 +162,8 @@ class _WelcomeSlidingCardState extends State<WelcomeSlidingCard> {
                                         InkWell(
                                           onTap: () {},
                                           child: Padding(
-                                            padding: EdgeInsets.only(left: 10),
+                                            padding:
+                                                EdgeInsets.only(left: 10),
                                             child: Chip(
                                               backgroundColor:
                                                   Color(0xffB5EFD7),
@@ -212,10 +207,11 @@ class _WelcomeSlidingCardState extends State<WelcomeSlidingCard> {
                                       BorderRadius.all(Radius.circular(12)),
                                   child: Image.network(
                                     state.news[index].thumbnail,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.25,
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.7,
+                                    height:
+                                        MediaQuery.of(context).size.height *
+                                            0.25,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.7,
                                     alignment: Alignment(-sumOffset.abs(), 0),
                                     fit: BoxFit.cover,
                                   ),
@@ -226,7 +222,8 @@ class _WelcomeSlidingCardState extends State<WelcomeSlidingCard> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(15.0),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.end,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[

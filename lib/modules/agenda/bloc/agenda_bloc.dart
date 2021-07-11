@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:komisains_app/modules/agenda/models/agenda.dart';
 import 'package:komisains_app/modules/agenda/repositories/agenda_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'agenda_event.dart';
 part 'agenda_state.dart';
@@ -25,10 +27,13 @@ class AgendaBloc extends Bloc<AgendaEvent, AgendaState> {
   Stream<AgendaState> _mapFetchAgendaToState() async* {
     yield AgendaStateLoad();
     try {
-      final agendaData = await agendaRepository.fetchData();
+      final prefs = await SharedPreferences.getInstance();
+      final extractedData = json.decode(prefs.getString('userData').toString());
+      final token = extractedData['token'];
+      final agendaData = await agendaRepository.fetchData(token);
       yield AgendaStateLoaded(calendar: agendaData);
     } catch (_) {
       yield AgendaStateError();
-    }
+    } 
   }
 }

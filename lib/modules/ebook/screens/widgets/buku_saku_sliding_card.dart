@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+// import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:komisains_app/modules/ebook/bloc/ebook_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BukuSakuView extends StatefulWidget {
   @override
@@ -47,15 +48,19 @@ class _BukuSakuViewState extends State<BukuSakuView> {
   //   super.didChangeDependencies();
   // }
 
+  void _launchURL(String _url) async => await canLaunch(_url)
+      ? await launch(_url)
+      : throw 'Could not launch $_url';
+
   @override
   Widget build(BuildContext context) {
     ContainerTransitionType _transitionType = ContainerTransitionType.fade;
 
     return BlocBuilder<EbookBloc, EbookState>(
       builder: (context, state) {
-        if (state is EbookStateLoad) {
+        if (state is EbookStateError) {
           return Center(
-            child: CircularProgressIndicator(),
+            child: Text('Error'),
           );
         } else if (state is EbookStateLoaded) {
           final materiWajib = state.books
@@ -82,9 +87,10 @@ class _BukuSakuViewState extends State<BukuSakuView> {
                         elevation: 0,
                       ),
                       body: Container(
-                          child: PDFViewerCachedFromUrl(
-                              url: materiWajib[index].file
-                              )),
+                          // child: PDFViewerCachedFromUrl(
+                          //     url: materiWajib[index].file
+                          //     )
+                          ),
                     );
                   },
                   closedBuilder: (context, openContainer) {
@@ -93,7 +99,8 @@ class _BukuSakuViewState extends State<BukuSakuView> {
                     return InkWell(
                       customBorder: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
-                      onTap: openContainer,
+                      onTap: () => _launchURL(materiWajib[index].file),
+                      // openContainer,
                       child: Transform.translate(
                         offset: Offset(-32 * gauss * sumOffset.sign, 0),
                         child: Container(
@@ -108,9 +115,8 @@ class _BukuSakuViewState extends State<BukuSakuView> {
                                       BorderRadius.all(Radius.circular(12)),
                                   child: Image.network(
                                     materiWajib[index].thumbnail,
-                                    height:
-                                        MediaQuery.of(context).size.height *
-                                            0.4,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.4,
                                     width: MediaQuery.of(context).size.width *
                                         0.44,
                                     alignment: Alignment(-sumOffset.abs(), 0),
@@ -118,13 +124,12 @@ class _BukuSakuViewState extends State<BukuSakuView> {
                                   ),
                                 ),
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width *
-                                      0.44,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.44,
                                   child: Padding(
                                     padding: const EdgeInsets.all(15.0),
                                     child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.end,
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
@@ -167,7 +172,7 @@ class _BukuSakuViewState extends State<BukuSakuView> {
           );
         } else {
           return Center(
-            child: Text('Error'),
+            child: CircularProgressIndicator(),
           );
         }
       },
@@ -175,88 +180,88 @@ class _BukuSakuViewState extends State<BukuSakuView> {
   }
 }
 
-class PDFViewerCachedFromUrl extends StatefulWidget {
-  const PDFViewerCachedFromUrl({Key? key, required this.url})
-      : super(key: key);
+// class PDFViewerCachedFromUrl extends StatefulWidget {
+//   const PDFViewerCachedFromUrl({Key? key, required this.url})
+//       : super(key: key);
 
-  final String url;
+//   final String url;
 
-  @override
-  _PDFViewerCachedFromUrlState createState() => _PDFViewerCachedFromUrlState();
-}
+//   @override
+//   _PDFViewerCachedFromUrlState createState() => _PDFViewerCachedFromUrlState();
+// }
 
-class _PDFViewerCachedFromUrlState extends State<PDFViewerCachedFromUrl> {
-  int _totalPages = 0;
-  int _currentPage = 0;
-  bool pdfReady = false;
-  late PDFViewController _pdfViewController;
+// class _PDFViewerCachedFromUrlState extends State<PDFViewerCachedFromUrl> {
+//   int _totalPages = 0;
+//   int _currentPage = 0;
+//   bool pdfReady = false;
+//   late PDFViewController _pdfViewController;
 
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        PDF(
-          autoSpacing: true,
-          swipeHorizontal: true,
-          onError: (e) {
-            print(e);
-          },
-          onRender: (_pages) {
-            setState(() {
-              _totalPages = _pages!;
-              pdfReady = true;
-            });
-          },
-          onPageChanged: (int? page, int? total) {
-            setState(() {
-              _currentPage = (page! + 1);
-              _totalPages = total!;
-            });
-          },
-          onViewCreated: (PDFViewController vc) {
-            _pdfViewController = vc;
-          },
-        ).cachedFromUrl(
-          widget.url,
-          // placeholder: (double progress) => Center(child: Text('$progress %')),
-          // errorWidget: (dynamic error) => Center(child: Text(error.toString())),
-        ),
-        !pdfReady
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : Offstage(),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                border: Border.all(width: 1.0, color: const Color(0xff6EA88F)),
-              ),
-              height: MediaQuery.of(context).size.height * 0.04,
-              width: MediaQuery.of(context).size.width * 0.25,
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Page : $_currentPage / $_totalPages',
-                      style: const TextStyle(
-                        color: const Color(0xff6EA88F),
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Stack(
+//       children: <Widget>[
+//         PDF(
+//           autoSpacing: true,
+//           swipeHorizontal: true,
+//           onError: (e) {
+//             print(e);
+//           },
+//           onRender: (_pages) {
+//             setState(() {
+//               _totalPages = _pages!;
+//               pdfReady = true;
+//             });
+//           },
+//           onPageChanged: (int? page, int? total) {
+//             setState(() {
+//               _currentPage = (page! + 1);
+//               _totalPages = total!;
+//             });
+//           },
+//           onViewCreated: (PDFViewController vc) {
+//             _pdfViewController = vc;
+//           },
+//         ).cachedFromUrl(
+//           widget.url,
+//           // placeholder: (double progress) => Center(child: Text('$progress %')),
+//           // errorWidget: (dynamic error) => Center(child: Text(error.toString())),
+//         ),
+//         !pdfReady
+//             ? Center(
+//                 child: CircularProgressIndicator(),
+//               )
+//             : Offstage(),
+//         Align(
+//           alignment: Alignment.bottomRight,
+//           child: Padding(
+//             padding: const EdgeInsets.all(20),
+//             child: Container(
+//               decoration: BoxDecoration(
+//                 borderRadius: BorderRadius.all(Radius.circular(20)),
+//                 border: Border.all(width: 1.0, color: const Color(0xff6EA88F)),
+//               ),
+//               height: MediaQuery.of(context).size.height * 0.04,
+//               width: MediaQuery.of(context).size.width * 0.25,
+//               padding: const EdgeInsets.only(left: 10, right: 10),
+//               child: Row(
+//                 children: <Widget>[
+//                   Align(
+//                     alignment: Alignment.center,
+//                     child: Text(
+//                       'Page : $_currentPage / $_totalPages',
+//                       style: const TextStyle(
+//                         color: const Color(0xff6EA88F),
+//                         fontSize: 16,
+//                         fontWeight: FontWeight.bold,
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }

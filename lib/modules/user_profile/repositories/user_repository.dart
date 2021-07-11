@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 
 import 'package:http/http.dart' as http;
@@ -8,11 +9,13 @@ import 'package:komisains_app/modules/user_profile/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRepository {
-  final String? authToken;
+  // final String? authToken;
   final String? userId;
-  UserRepository({this.authToken, this.userId});
+  UserRepository({
+    // this.authToken, 
+    this.userId});
 
-  Future<String> upload(File imageFile) async {
+  Future<String> upload(File imageFile, String authToken) async {
     // open a bytestream
     var stream = new http.ByteStream(imageFile.openRead());
     stream.cast();
@@ -67,7 +70,7 @@ class UserRepository {
     return message;
   }
 
-  Future<String> editPassword(Map<String, String> password) async {
+  Future<String> editPassword(Map<String, String> password, String authToken) async {
     try {
       final response = await http.put(
         Uri.parse('https://api.komdakkomcakaba.my.id/api/profile/password'),
@@ -129,7 +132,7 @@ class UserRepository {
     }
   }
 
-  Future<String> updateProfile(Map<String, String> newProduct) async {
+  Future<String> updateProfile(Map<String, String> newProduct, String authToken) async {
     try {
       final response = await http.put(
         Uri.parse('https://api.komdakkomcakaba.my.id/api/profile/edit'),

@@ -2,8 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
-
-class News with ChangeNotifier {
+class News {
   News({
     required this.articles,
     required this.message,
@@ -28,7 +27,7 @@ class News with ChangeNotifier {
       };
 }
 
-class Article with ChangeNotifier {
+class Article {
   Article({
     required this.id,
     required this.title,

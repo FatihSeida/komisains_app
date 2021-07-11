@@ -27,7 +27,7 @@ class ChannelYoutube {
       };
 }
 
-class Datum with ChangeNotifier {
+class Datum {
   Datum({
     required this.id,
     required this.title,
@@ -51,7 +51,8 @@ class Datum with ChangeNotifier {
   factory Datum.fromMap(Map<String, dynamic> json) => Datum(
         id: json["id"],
         title: json["title"],
-        thumbnail: 'https://komdakkomcakaba.my.id/yt-channel-thumbnail/${json["thumbnail"]}',
+        thumbnail:
+            'https://komdakkomcakaba.my.id/yt-channel-thumbnail/${json["thumbnail"]}',
         url: json["url"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
